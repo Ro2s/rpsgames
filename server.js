@@ -1,11 +1,20 @@
 const WebSocket = require('ws');
+const http = require('http');
 const sqlite3 = require('sqlite3').verbose();
-const { v4: uuidv4 } = require('uuid'); // Vous devrez installer ce package: npm install uuid
+const { v4: uuidv4 } = require('uuid');
 
-const wss = new WebSocket.Server({ port: 8080 });
-const db = new sqlite3.Database(':memory:');
+// Créer un serveur HTTP
+const server = http.createServer((req, res) => {
+  // Répondre aux requêtes HTTP simples
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Serveur WebSocket RockPaperScissors.io en cours d\'exécution\n');
+});
+
+// Créer un serveur WebSocket attaché au serveur HTTP
+const wss = new WebSocket.Server({ server });
 
 // Initialisation de la base de données
+const db = new sqlite3.Database(':memory:');
 db.serialize(() => {
   db.run('CREATE TABLE players (username TEXT PRIMARY KEY, score INTEGER)');
 });
@@ -17,12 +26,14 @@ const privateGames = new Map(); // Stocke les parties privées
 const matches = new Map(); // Stocke les matchs en cours
 
 wss.on('connection', (ws) => {
+  console.log('Nouvelle connexion WebSocket établie');
   let currentPlayer = null;
 
   ws.on('message', (message) => {
     let data;
     try {
       data = JSON.parse(message);
+      console.log('Message reçu:', data);
     } catch (err) {
       console.error('Données malformées reçues :', message);
       return;
@@ -392,4 +403,8 @@ wss.on('error', (error) => {
   console.error('Erreur du serveur WebSocket :', error);
 });
 
-console.log('Serveur WebSocket démarré sur ws://localhost:8080');
+// Démarrer le serveur sur toutes les interfaces réseau
+server.listen(8080, '0.0.0.0', () => {
+  console.log('Serveur WebSocket démarré sur ws://0.0.0.0:8080');
+  console.log('Pour vous connecter depuis un autre appareil, utilisez l\'adresse IP de cet ordinateur');
+});

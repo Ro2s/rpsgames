@@ -8,57 +8,57 @@
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #4a69bd;
-      --secondary: #6a89cc;
-      --accent: #f6b93b;
-      --background: #1e272e;
-      --card-bg: #2c3a47;
-      --text: #f5f6fa;
-      --success: #44bd32;
-      --danger: #e84118;
-      --draw: #fbc531;
+    --primary: #4a69bd;
+    --secondary: #6a89cc;
+    --accent: #f6b93b;
+    --background: #1e272e;
+    --card-bg: #2c3a47;
+    --text: #f5f6fa;
+    --success: #44bd32;
+    --danger: #e84118;
+    --draw: #fbc531;
     }
     
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     }
     
     body {
-      font-family: 'Poppins', sans-serif;
-      background-color: var(--background);
-      color: var(--text);
-      overflow-x: hidden;
-      background-image: 
-        radial-gradient(circle at 25% 25%, rgba(74, 105, 189, 0.2) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(246, 185, 59, 0.2) 0%, transparent 50%);
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    overflow-x: hidden;
+    background-image: 
+    radial-gradient(circle at 25% 25%, rgba(74, 105, 189, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(246, 185, 59, 0.2) 0%, transparent 50%);
     }
     
     .container {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 20px;
-      position: relative;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    position: relative;
     }
     
     .logo-container {
-      text-align: center;
-      margin-bottom: 30px;
+    text-align: center;
+    margin-bottom: 30px;
     }
     
     .logo {
-      font-family: 'Fredoka One', cursive;
-      font-size: 3.5rem;
-      color: var(--accent);
-      text-shadow: 3px 3px 0 var(--primary);
-      letter-spacing: -1px;
-      margin: 0;
-      animation: pulse 2s infinite;
+    font-family: 'Fredoka One', cursive;
+    font-size: 3.5rem;
+    color: var(--accent);
+    text-shadow: 3px 3px 0 var(--primary);
+    letter-spacing: -1px;
+    margin: 0;
+    animation: pulse 2s infinite;
     }
     
     .logo span {
-      display: inline-block;
+    display: inline-block;
     }
     
     .logo span:nth-child(1) { color: #e74c3c; animation: bounce 2s infinite; animation-delay: 0.1s; }
@@ -67,391 +67,391 @@
     .logo span:nth-child(4) { color: #f1c40f; animation: bounce 2s infinite; animation-delay: 0.4s; }
     
     .card {
-      background-color: var(--card-bg);
-      border-radius: 15px;
-      padding: 30px;
-      margin-bottom: 30px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-      transform: translateY(0);
-      transition: all 0.3s ease;
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(0);
+    transition: all 0.3s ease;
     }
     
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
     }
     
     h2 {
-      font-family: 'Fredoka One', cursive;
-      color: var(--accent);
-      margin-bottom: 20px;
-      text-align: center;
+    font-family: 'Fredoka One', cursive;
+    color: var(--accent);
+    margin-bottom: 20px;
+    text-align: center;
     }
     
     input[type="text"] {
-      width: 100%;
-      padding: 15px;
-      margin-bottom: 20px;
-      border: none;
-      border-radius: 50px;
-      background-color: rgba(255, 255, 255, 0.1);
-      color: var(--text);
-      font-size: 16px;
-      text-align: center;
-      transition: all 0.3s ease;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 50px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    font-size: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
     }
     
     input[type="text"]:focus {
-      outline: none;
-      background-color: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 0 0 3px var(--accent);
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 3px var(--accent);
     }
     
     button {
-      padding: 15px 30px;
-      border: none;
-      border-radius: 50px;
-      background-color: var(--primary);
-      color: white;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-      font-size: 16px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin: 10px;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    background-color: var(--primary);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
     }
     
     button:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: all 0.6s;
-      z-index: -1;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.6s;
+    z-index: -1;
     }
     
     button:hover:before {
-      left: 100%;
+    left: 100%;
     }
     
     button:hover {
-      background-color: var(--secondary);
-      transform: translateY(-3px);
-      box-shadow: 0 7px 14px rgba(0, 0, 0, 0.3);
+    background-color: var(--secondary);
+    transform: translateY(-3px);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.3);
     }
     
     button:active {
-      transform: translateY(0);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
     }
     
     .choices {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px 0;
     }
     
     .choices button {
-      font-size: 24px;
-      margin: 10px;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      transition: all 0.3s ease;
+    font-size: 24px;
+    margin: 10px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: all 0.3s ease;
     }
     
     .choices button span {
-      font-size: 40px;
-      margin-bottom: 5px;
+    font-size: 40px;
+    margin-bottom: 5px;
     }
     
     .choices button.rock {
-      background-color: #e74c3c;
+    background-color: #e74c3c;
     }
     
     .choices button.paper {
-      background-color: #3498db;
+    background-color: #3498db;
     }
     
     .choices button.scissors {
-      background-color: #2ecc71;
+    background-color: #2ecc71;
     }
     
     .choices button:hover {
-      transform: translateY(-5px) scale(1.05);
+    transform: translateY(-5px) scale(1.05);
     }
     
     .score-display {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 20px 0;
     }
     
     .score-box {
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      padding: 15px 30px;
-      min-width: 120px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px 30px;
+    min-width: 120px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
     }
     
     .score-box:before {
-      content: '';
-      position: absolute;
-      top: -10px;
-      left: -10px;
-      right: -10px;
-      bottom: -10px;
-      background: linear-gradient(45deg, var(--primary), var(--accent));
-      z-index: -1;
-      border-radius: 15px;
-      animation: rotate 3s linear infinite;
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    z-index: -1;
+    border-radius: 15px;
+    animation: rotate 3s linear infinite;
     }
     
     .score-box .label {
-      font-size: 14px;
-      opacity: 0.8;
+    font-size: 14px;
+    opacity: 0.8;
     }
     
     .score-box .score {
-      font-size: 28px;
-      font-weight: bold;
-      font-family: 'Fredoka One', cursive;
+    font-size: 28px;
+    font-weight: bold;
+    font-family: 'Fredoka One', cursive;
     }
     
     #result, #ai-result, #online-result {
-      text-align: center;
-      font-size: 20px;
-      margin: 20px 0;
-      min-height: 30px;
-      font-weight: 600;
+    text-align: center;
+    font-size: 20px;
+    margin: 20px 0;
+    min-height: 30px;
+    font-weight: 600;
     }
     
     #opponent-info {
-      text-align: center;
-      padding: 10px;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      margin: 20px 0;
-      animation: pulse 2s infinite;
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 20px 0;
+    animation: pulse 2s infinite;
     }
     
     #online-info {
-      text-align: center;
-      padding: 15px;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      margin: 20px 0;
+    text-align: center;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 20px 0;
     }
     
     #private-link {
-      padding: 15px;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      margin: 20px 0;
-      word-break: break-all;
-      text-align: center;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 20px 0;
+    word-break: break-all;
+    text-align: center;
     }
     
     #copy-link-btn {
-      background-color: var(--accent);
-      padding: 8px 15px;
-      font-size: 14px;
-      margin-top: 10px;
+    background-color: var(--accent);
+    padding: 8px 15px;
+    font-size: 14px;
+    margin-top: 10px;
     }
     
     .back-button {
-      background-color: rgba(255, 255, 255, 0.2);
-      margin-top: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin-top: 20px;
     }
     
     #ranking {
-      margin-top: 30px;
+    margin-top: 30px;
     }
     
     #ranking h2 {
-      position: relative;
-      display: inline-block;
-      padding-bottom: 10px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
     }
     
     #ranking h2:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50px;
-      height: 3px;
-      background-color: var(--accent);
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: var(--accent);
     }
     
     #ranking-list {
-      list-style-type: none;
-      padding: 0;
+    list-style-type: none;
+    padding: 0;
     }
     
     #ranking-list li {
-      padding: 12px 15px;
-      margin: 8px 0;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      transition: all 0.3s ease;
+    padding: 12px 15px;
+    margin: 8px 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    transition: all 0.3s ease;
     }
     
     #ranking-list li:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-      transform: translateX(5px);
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(5px);
     }
     
     #ranking-list li:nth-child(1) {
-      background-color: rgba(255, 215, 0, 0.3);
-      border-left: 5px solid gold;
+    background-color: rgba(255, 215, 0, 0.3);
+    border-left: 5px solid gold;
     }
     
     #ranking-list li:nth-child(2) {
-      background-color: rgba(192, 192, 192, 0.3);
-      border-left: 5px solid silver;
+    background-color: rgba(192, 192, 192, 0.3);
+    border-left: 5px solid silver;
     }
     
     #ranking-list li:nth-child(3) {
-      background-color: rgba(205, 127, 50, 0.3);
-      border-left: 5px solid #cd7f32;
+    background-color: rgba(205, 127, 50, 0.3);
+    border-left: 5px solid #cd7f32;
     }
     
     .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
     }
     
     .particle {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.5;
-      animation: float 15s infinite linear;
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: float 15s infinite linear;
     }
     
     @keyframes float {
-      0% {
-        transform: translateY(0) rotate(0deg);
-      }
-      100% {
-        transform: translateY(-100vh) rotate(360deg);
-      }
+    0% {
+    transform: translateY(0) rotate(0deg);
+    }
+    100% {
+    transform: translateY(-100vh) rotate(360deg);
+    }
     }
     
     @keyframes pulse {
-      0% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0.7;
-      }
-      100% {
-        opacity: 1;
-      }
+    0% {
+    opacity: 1;
+    }
+    50% {
+    opacity: 0.7;
+    }
+    100% {
+    opacity: 1;
+    }
     }
     
     @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-10px);
-      }
+    0%, 100% {
+    transform: translateY(0);
+    }
+    50% {
+    transform: translateY(-10px);
+    }
     }
     
     @keyframes rotate {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
+    0% {
+    transform: rotate(0deg);
+    }
+    100% {
+    transform: rotate(360deg);
+    }
     }
     
     .result-win {
-      color: var(--success);
-      animation: bounceIn 1s;
+    color: var(--success);
+    animation: bounceIn 1s;
     }
     
     .result-lose {
-      color: var(--danger);
-      animation: shakeX 1s;
+    color: var(--danger);
+    animation: shakeX 1s;
     }
     
     .result-draw {
-      color: var(--draw);
-      animation: pulse 1s;
+    color: var(--draw);
+    animation: pulse 1s;
     }
     
     .hidden {
-      display: none;
+    display: none;
     }
     
     .fade-in {
-      animation: fadeIn 0.5s;
+    animation: fadeIn 0.5s;
     }
     
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    from {
+    opacity: 0;
+    transform: translateY(20px);
+    }
+    to {
+    opacity: 1;
+    transform: translateY(0);
+    }
     }
     
     @keyframes bounceIn {
-      0% {
-        transform: scale(0.3);
-        opacity: 0;
-      }
-      50% {
-        transform: scale(1.05);
-      }
-      70% {
-        transform: scale(0.9);
-      }
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
+    0% {
+    transform: scale(0.3);
+    opacity: 0;
+    }
+    50% {
+    transform: scale(1.05);
+    }
+    70% {
+    transform: scale(0.9);
+    }
+    100% {
+    transform: scale(1);
+    opacity: 1;
+    }
     }
     
     @keyframes shakeX {
-      0%, 100% {
-        transform: translateX(0);
-      }
-      10%, 30%, 50%, 70%, 90% {
-        transform: translateX(-5px);
-      }
-      20%, 40%, 60%, 80% {
-        transform: translateX(5px);
-      }
+    0%, 100% {
+    transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+    }
     }
   </style>
 </head>
@@ -460,128 +460,128 @@
   
   <div class="container">
     <div class="logo-container">
-      <h1 class="logo">
-        <span>R</span><span>P</span><span>S</span><span>.io</span>
-      </h1>
+    <h1 class="logo">
+    <span>R</span><span>P</span><span>S</span><span>.io</span>
+    </h1>
     </div>
     
     <!-- Écran de connexion -->
     <div id="login" class="card animate__animated animate__fadeIn">
-      <h2>Rejoindre la partie</h2>
-      <input type="text" id="username" placeholder="Entrez votre pseudo" autocomplete="off">
-      <div style="text-align: center;">
-        <button onclick="connect()" class="animate__animated animate__pulse animate__infinite">Se connecter</button>
-      </div>
+    <h2>Rejoindre la partie</h2>
+    <input type="text" id="username" placeholder="Entrez votre pseudo" autocomplete="off">
+    <div style="text-align: center;">
+    <button onclick="connect()" class="animate__animated animate__pulse animate__infinite">Se connecter</button>
+    </div>
     </div>
     
     <!-- Sélection du mode de jeu -->
     <div id="mode-selection" class="card hidden">
-      <h2>Choisissez votre mode de jeu</h2>
-      <div style="display: flex; justify-content: center; flex-wrap: wrap;">
-        <button onclick="selectMode('ai')" class="animate__animated animate__fadeInLeft">
-          <span style="font-size: 24px;">🤖</span> Jouer contre l'IA
-        </button>
-        <button onclick="selectMode('online')" class="animate__animated animate__fadeInRight">
-          <span style="font-size: 24px;">👥</span> Mode Online
-        </button>
-      </div>
+    <h2>Choisissez votre mode de jeu</h2>
+    <div style="display: flex; justify-content: center; flex-wrap: wrap;">
+    <button onclick="selectMode('ai')" class="animate__animated animate__fadeInLeft">
+    <span style="font-size: 24px;">🤖</span> Jouer contre l'IA
+    </button>
+    <button onclick="selectMode('online')" class="animate__animated animate__fadeInRight">
+    <span style="font-size: 24px;">👥</span> Mode Online
+    </button>
+    </div>
     </div>
     
     <!-- Mode IA -->
     <div id="ai-game" class="card hidden">
-      <h2>Mode IA</h2>
-      <div class="score-display">
-        <div class="score-box">
-          <div class="label">Vous</div>
-          <div class="score" id="player-score-ai">0</div>
-        </div>
-        <div class="score-box">
-          <div class="label">IA</div>
-          <div class="score" id="ai-score">0</div>
-        </div>
-      </div>
-      <div class="choices">
-        <button onclick="playAI('pierre')" class="rock">
-          <span>🪨</span>
-          Pierre
-        </button>
-        <button onclick="playAI('feuille')" class="paper">
-          <span>📄</span>
-          Feuille
-        </button>
-        <button onclick="playAI('ciseaux')" class="scissors">
-          <span>✂️</span>
-          Ciseaux
-        </button>
-      </div>
-      <h3 id="ai-result"></h3>
-      <div style="text-align: center;">
-        <button class="back-button" onclick="backToModeSelection()">Retour</button>
-      </div>
+    <h2>Mode IA</h2>
+    <div class="score-display">
+    <div class="score-box">
+    <div class="label">Vous</div>
+    <div class="score" id="player-score-ai">0</div>
+    </div>
+    <div class="score-box">
+    <div class="label">IA</div>
+    <div class="score" id="ai-score">0</div>
+    </div>
+    </div>
+    <div class="choices">
+    <button onclick="playAI('pierre')" class="rock">
+    <span>🪨</span>
+    Pierre
+    </button>
+    <button onclick="playAI('feuille')" class="paper">
+    <span>📄</span>
+    Feuille
+    </button>
+    <button onclick="playAI('ciseaux')" class="scissors">
+    <span>✂️</span>
+    Ciseaux
+    </button>
+    </div>
+    <h3 id="ai-result"></h3>
+    <div style="text-align: center;">
+    <button class="back-button" onclick="backToModeSelection()">Retour</button>
+    </div>
     </div>
     
     <!-- Mode Online -->
     <div id="online-game" class="card hidden">
-      <h2>Mode Online</h2>
-      <div id="online-info">
-        <span style="font-size: 24px;">👥</span> Joueurs en ligne: <span id="online-count" style="font-weight: bold;">0</span>
-      </div>
-      <div style="display: flex; justify-content: center; flex-wrap: wrap;">
-        <button onclick="quickMatch()" class="animate__animated animate__pulse">
-          <span style="font-size: 24px;">🔍</span> Partie rapide
-        </button>
-        <button onclick="createPrivateGame()">
-          <span style="font-size: 24px;">🔒</span> Créer une partie privée
-        </button>
-      </div>
-      <div id="private-link" class="hidden">
-        <div>Lien privé:</div>
-        <div id="private-link-text" style="margin: 10px 0; font-weight: bold;"></div>
-        <button id="copy-link-btn" onclick="copyPrivateLink()">Copier</button>
-      </div>
-      <div style="text-align: center; margin-top: 20px;">
-        <button class="back-button" onclick="backToModeSelection()">Retour</button>
-      </div>
+    <h2>Mode Online</h2>
+    <div id="online-info">
+    <span style="font-size: 24px;">👥</span> Joueurs en ligne: <span id="online-count" style="font-weight: bold;">0</span>
+    </div>
+    <div style="display: flex; justify-content: center; flex-wrap: wrap;">
+    <button onclick="quickMatch()" class="animate__animated animate__pulse">
+    <span style="font-size: 24px;">🔍</span> Partie rapide
+    </button>
+    <button onclick="createPrivateGame()">
+    <span style="font-size: 24px;">🔒</span> Créer une partie privée
+    </button>
+    </div>
+    <div id="private-link" class="hidden">
+    <div>Lien privé:</div>
+    <div id="private-link-text" style="margin: 10px 0; font-weight: bold;"></div>
+    <button id="copy-link-btn" onclick="copyPrivateLink()">Copier</button>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+    <button class="back-button" onclick="backToModeSelection()">Retour</button>
+    </div>
     </div>
     
     <!-- Jeu en ligne (partie rapide ou privée) -->
     <div id="private-game" class="card hidden">
-      <h2>Partie en ligne</h2>
-      <div id="opponent-info">En attente d'un adversaire...</div>
-      <div class="score-display">
-        <div class="score-box">
-          <div class="label">Vous</div>
-          <div class="score" id="player-score-online">0</div>
-        </div>
-        <div class="score-box">
-          <div class="label">Adversaire</div>
-          <div class="score" id="opponent-score">0</div>
-        </div>
-      </div>
-      <div class="choices">
-        <button onclick="playOnline('pierre')" class="rock">
-          <span>🪨</span>
-          Pierre
-        </button>
-        <button onclick="playOnline('feuille')" class="paper">
-          <span>📄</span>
-          Feuille
-        </button>
-        <button onclick="playOnline('ciseaux')" class="scissors">
-          <span>✂️</span>
-          Ciseaux
-        </button>
-      </div>
-      <h3 id="online-result"></h3>
-      <div style="text-align: center;">
-        <button class="back-button" onclick="leaveGame()">Quitter la partie</button>
-      </div>
+    <h2>Partie en ligne</h2>
+    <div id="opponent-info">En attente d'un adversaire...</div>
+    <div class="score-display">
+    <div class="score-box">
+    <div class="label">Vous</div>
+    <div class="score" id="player-score-online">0</div>
+    </div>
+    <div class="score-box">
+    <div class="label">Adversaire</div>
+    <div class="score" id="opponent-score">0</div>
+    </div>
+    </div>
+    <div class="choices">
+    <button onclick="playOnline('pierre')" class="rock">
+    <span>🪨</span>
+    Pierre
+    </button>
+    <button onclick="playOnline('feuille')" class="paper">
+    <span>📄</span>
+    Feuille
+    </button>
+    <button onclick="playOnline('ciseaux')" class="scissors">
+    <span>✂️</span>
+    Ciseaux
+    </button>
+    </div>
+    <h3 id="online-result"></h3>
+    <div style="text-align: center;">
+    <button class="back-button" onclick="leaveGame()">Quitter la partie</button>
+    </div>
     </div>
     
     <!-- Classement -->
     <div id="ranking" class="card">
-      <h2>Classement Global</h2>
-      <ul id="ranking-list"></ul>
+    <h2>Classement Global</h2>
+    <ul id="ranking-list"></ul>
     </div>
   </div>
 
@@ -634,107 +634,124 @@
         return;
       }
 
-      socket = new WebSocket('ws://localhost:8080');
-
-      socket.onopen = () => {
-        socket.send(JSON.stringify({ type: 'login', username }));
-      };
-
-      socket.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        console.log('Message reçu:', data);
+      // Déterminer l'adresse du serveur WebSocket
+      const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsHost = window.location.hostname || 'localhost';
+      const wsPort = '8080';
+      const wsUrl = `${wsProtocol}//${wsHost}:${wsPort}`;
+      
+      console.log("Tentative de connexion à:", wsUrl);
+      
+      try {
+        socket = new WebSocket(wsUrl);
         
-        if (data.type === 'login_success') {
-          document.getElementById('login').classList.add('hidden');
+        socket.onopen = () => {
+          console.log("Connexion WebSocket établie");
+          socket.send(JSON.stringify({ type: 'login', username }));
+        };
+
+        socket.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          console.log('Message reçu:', data);
           
-          // Si un ID de partie est dans l'URL, rejoindre directement cette partie
-          if (gameIdFromUrl) {
-            joinPrivateGame(gameIdFromUrl);
-          } else {
-            document.getElementById('mode-selection').classList.remove('hidden');
-            document.getElementById('mode-selection').classList.add('fade-in');
-          }
-        } else if (data.type === 'login_error') {
-          alert(data.message);
-        } else if (data.type === 'ai_result') {
-          const resultElement = document.getElementById('ai-result');
-          resultElement.innerText = data.message;
-          
-          // Ajouter des classes pour les animations
-          resultElement.className = '';
-          if (data.result === 'player') {
-            playerScoreAI++;
-            document.getElementById('player-score-ai').innerText = playerScoreAI;
-            resultElement.classList.add('result-win');
-          } else if (data.result === 'ai') {
-            aiScore++;
-            document.getElementById('ai-score').innerText = aiScore;
-            resultElement.classList.add('result-lose');
-          } else {
-            resultElement.classList.add('result-draw');
-          }
-        } else if (data.type === 'online_count') {
-          document.getElementById('online-count').innerText = data.count;
-        } else if (data.type === 'private_game_created') {
-          privateGameId = data.gameId;
-          const privateLink = `${window.location.origin}${window.location.pathname}?game=${privateGameId}`;
-          document.getElementById('private-link-text').innerText = privateLink;
-          document.getElementById('private-link').classList.remove('hidden');
-          document.getElementById('private-link').classList.add('fade-in');
-        } else if (data.type === 'game_joined') {
-          document.getElementById('online-game').classList.add('hidden');
-          document.getElementById('private-game').classList.remove('hidden');
-          document.getElementById('private-game').classList.add('fade-in');
-          document.getElementById('opponent-info').innerText = `Vous jouez contre ${data.opponent}`;
-          resetOnlineScores();
-        } else if (data.type === 'opponent_left') {
-          document.getElementById('opponent-info').innerText = 'Votre adversaire a quitté la partie.';
-          setTimeout(() => {
-            if (gameMode === 'quick') {
-              document.getElementById('opponent-info').innerText = 'Recherche d\'un nouvel adversaire...';
+          if (data.type === 'login_success') {
+            document.getElementById('login').classList.add('hidden');
+            
+            // Si un ID de partie est dans l'URL, rejoindre directement cette partie
+            if (gameIdFromUrl) {
+              joinPrivateGame(gameIdFromUrl);
             } else {
-              document.getElementById('opponent-info').innerText = 'En attente qu\'un joueur rejoigne votre partie...';
+              document.getElementById('mode-selection').classList.remove('hidden');
+              document.getElementById('mode-selection').classList.add('fade-in');
             }
-          }, 3000);
-        } else if (data.type === 'game_result') {
-          const resultElement = document.getElementById('online-result');
-          resultElement.innerText = data.message;
-          
-          // Ajouter des classes pour les animations
-          resultElement.className = '';
-          if (data.result === 'player') {
-            playerScoreOnline++;
-            document.getElementById('player-score-online').innerText = playerScoreOnline;
-            resultElement.classList.add('result-win');
-          } else if (data.result === 'opponent') {
-            opponentScore++;
-            document.getElementById('opponent-score').innerText = opponentScore;
-            resultElement.classList.add('result-lose');
-          } else {
-            resultElement.classList.add('result-draw');
+          } else if (data.type === 'login_error') {
+            alert(data.message);
+          } else if (data.type === 'ai_result') {
+            const resultElement = document.getElementById('ai-result');
+            resultElement.innerText = data.message;
+            
+            // Ajouter des classes pour les animations
+            resultElement.className = '';
+            if (data.result === 'player') {
+              playerScoreAI++;
+              document.getElementById('player-score-ai').innerText = playerScoreAI;
+              resultElement.classList.add('result-win');
+            } else if (data.result === 'ai') {
+              aiScore++;
+              document.getElementById('ai-score').innerText = aiScore;
+              resultElement.classList.add('result-lose');
+            } else {
+              resultElement.classList.add('result-draw');
+            }
+          } else if (data.type === 'online_count') {
+            document.getElementById('online-count').innerText = data.count;
+          } else if (data.type === 'private_game_created') {
+            privateGameId = data.gameId;
+            const privateLink = `${window.location.origin}${window.location.pathname}?game=${privateGameId}`;
+            document.getElementById('private-link-text').innerText = privateLink;
+            document.getElementById('private-link').classList.remove('hidden');
+            document.getElementById('private-link').classList.add('fade-in');
+          } else if (data.type === 'game_joined') {
+            document.getElementById('online-game').classList.add('hidden');
+            document.getElementById('private-game').classList.remove('hidden');
+            document.getElementById('private-game').classList.add('fade-in');
+            document.getElementById('opponent-info').innerText = `Vous jouez contre ${data.opponent}`;
+            resetOnlineScores();
+          } else if (data.type === 'opponent_left') {
+            document.getElementById('opponent-info').innerText = 'Votre adversaire a quitté la partie.';
+            setTimeout(() => {
+              if (gameMode === 'quick') {
+                document.getElementById('opponent-info').innerText = 'Recherche d\'un nouvel adversaire...';
+              } else {
+                document.getElementById('opponent-info').innerText = 'En attente qu\'un joueur rejoigne votre partie...';
+              }
+            }, 3000);
+          } else if (data.type === 'game_result') {
+            const resultElement = document.getElementById('online-result');
+            resultElement.innerText = data.message;
+            
+            // Ajouter des classes pour les animations
+            resultElement.className = '';
+            if (data.result === 'player') {
+              playerScoreOnline++;
+              document.getElementById('player-score-online').innerText = playerScoreOnline;
+              resultElement.classList.add('result-win');
+            } else if (data.result === 'opponent') {
+              opponentScore++;
+              document.getElementById('opponent-score').innerText = opponentScore;
+              resultElement.classList.add('result-lose');
+            } else {
+              resultElement.classList.add('result-draw');
+            }
+          } else if (data.type === 'ranking') {
+            const rankingList = document.getElementById('ranking-list');
+            rankingList.innerHTML = '';
+            data.ranking.forEach((player, index) => {
+              const li = document.createElement('li');
+              li.innerHTML = `
+                <span>${index + 1}. ${player.username}</span>
+                <span>${player.score} points</span>
+              `;
+              rankingList.appendChild(li);
+            });
+          } else if (data.type === 'error') {
+            alert(data.message);
           }
-        } else if (data.type === 'ranking') {
-          const rankingList = document.getElementById('ranking-list');
-          rankingList.innerHTML = '';
-          data.ranking.forEach((player, index) => {
-            const li = document.createElement('li');
-            li.innerHTML = `
-              <span>${index + 1}. ${player.username}</span>
-              <span>${player.score} points</span>
-            `;
-            rankingList.appendChild(li);
-          });
-        }
-      };
+        };
 
-      socket.onerror = (error) => {
-        console.error('Erreur WebSocket :', error);
-        alert('Impossible de se connecter au serveur. Veuillez réessayer plus tard.');
-      };
+        socket.onerror = (error) => {
+          console.error('Erreur WebSocket :', error);
+          alert('Impossible de se connecter au serveur. Veuillez réessayer plus tard.');
+        };
 
-      socket.onclose = () => {
-        alert('Connexion au serveur perdue. Veuillez actualiser la page pour réessayer.');
-      };
+        socket.onclose = () => {
+          console.log('Connexion au serveur perdue');
+          alert('Connexion au serveur perdue. Veuillez actualiser la page pour réessayer.');
+        };
+      } catch (error) {
+        console.error("Erreur lors de la création de la connexion WebSocket:", error);
+        alert("Erreur de connexion au serveur. Veuillez réessayer.");
+      }
     }
     
     function selectMode(mode) {
