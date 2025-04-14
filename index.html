@@ -597,30 +597,30 @@
     
     // Créer des particules pour l'arrière-plan
     function createParticles() {
-      const particlesContainer = document.getElementById('particles');
-      const colors = ['#4a69bd', '#6a89cc', '#f6b93b', '#e55039', '#60a3bc'];
-      
-      for (let i = 0; i < 30; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        
-        // Propriétés aléatoires
-        const size = Math.random() * 20 + 5;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const left = Math.random() * 100;
-        const delay = Math.random() * 15;
-        const duration = Math.random() * 10 + 10;
-        
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.backgroundColor = color;
-        particle.style.left = `${left}%`;
-        particle.style.top = `${Math.random() * 100}%`;
-        particle.style.animationDelay = `${delay}s`;
-        particle.style.animationDuration = `${duration}s`;
-        
-        particlesContainer.appendChild(particle);
-      }
+    const particlesContainer = document.getElementById('particles');
+    const colors = ['#4a69bd', '#6a89cc', '#f6b93b', '#e55039', '#60a3bc'];
+    
+    for (let i = 0; i < 30; i++) {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    
+    // Propriétés aléatoires
+    const size = Math.random() * 20 + 5;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const left = Math.random() * 100;
+    const delay = Math.random() * 15;
+    const duration = Math.random() * 10 + 10;
+    
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.backgroundColor = color;
+    particle.style.left = `${left}%`;
+    particle.style.top = `${Math.random() * 100}%`;
+    particle.style.animationDelay = `${delay}s`;
+    particle.style.animationDuration = `${duration}s`;
+    
+    particlesContainer.appendChild(particle);
+    }
     }
     
     // Vérifier si un ID de partie privée est dans l'URL
@@ -628,277 +628,261 @@
     const gameIdFromUrl = urlParams.get('game');
     
     function connect() {
-      username = document.getElementById('username').value.trim();
-      if (!username || username.length < 3 || /[^a-zA-Z0-9]/.test(username)) {
-        alert('Veuillez entrer un pseudo valide (au moins 3 caractères, sans caractères spéciaux).');
-        return;
-      }
+    username = document.getElementById('username').value.trim();
+    if (!username || username.length < 3 || /[^a-zA-Z0-9]/.test(username)) {
+    alert('Veuillez entrer un pseudo valide (au moins 3 caractères, sans caractères spéciaux).');
+    return;
+    }
 
-      // Déterminer l'adresse du serveur WebSocket
-      const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const wsHost = window.location.hostname || 'localhost';
-      const wsPort = '8080';
-      const wsUrl = `${wsProtocol}//${wsHost}:${wsPort}`;
-      
-      console.log("Tentative de connexion à:", wsUrl);
-      
-      try {
-        socket = new WebSocket(wsUrl);
-        
-        socket.onopen = () => {
-          console.log("Connexion WebSocket établie");
-          socket.send(JSON.stringify({ type: 'login', username }));
-        };
+    // Connexion au serveur Fly.io
+    socket = new WebSocket('wss://pfc-app.fly.dev');
 
-        socket.onmessage = (event) => {
-          const data = JSON.parse(event.data);
-          console.log('Message reçu:', data);
-          
-          if (data.type === 'login_success') {
-            document.getElementById('login').classList.add('hidden');
-            
-            // Si un ID de partie est dans l'URL, rejoindre directement cette partie
-            if (gameIdFromUrl) {
-              joinPrivateGame(gameIdFromUrl);
-            } else {
-              document.getElementById('mode-selection').classList.remove('hidden');
-              document.getElementById('mode-selection').classList.add('fade-in');
-            }
-          } else if (data.type === 'login_error') {
-            alert(data.message);
-          } else if (data.type === 'ai_result') {
-            const resultElement = document.getElementById('ai-result');
-            resultElement.innerText = data.message;
-            
-            // Ajouter des classes pour les animations
-            resultElement.className = '';
-            if (data.result === 'player') {
-              playerScoreAI++;
-              document.getElementById('player-score-ai').innerText = playerScoreAI;
-              resultElement.classList.add('result-win');
-            } else if (data.result === 'ai') {
-              aiScore++;
-              document.getElementById('ai-score').innerText = aiScore;
-              resultElement.classList.add('result-lose');
-            } else {
-              resultElement.classList.add('result-draw');
-            }
-          } else if (data.type === 'online_count') {
-            document.getElementById('online-count').innerText = data.count;
-          } else if (data.type === 'private_game_created') {
-            privateGameId = data.gameId;
-            const privateLink = `${window.location.origin}${window.location.pathname}?game=${privateGameId}`;
-            document.getElementById('private-link-text').innerText = privateLink;
-            document.getElementById('private-link').classList.remove('hidden');
-            document.getElementById('private-link').classList.add('fade-in');
-          } else if (data.type === 'game_joined') {
-            document.getElementById('online-game').classList.add('hidden');
-            document.getElementById('private-game').classList.remove('hidden');
-            document.getElementById('private-game').classList.add('fade-in');
-            document.getElementById('opponent-info').innerText = `Vous jouez contre ${data.opponent}`;
-            resetOnlineScores();
-          } else if (data.type === 'opponent_left') {
-            document.getElementById('opponent-info').innerText = 'Votre adversaire a quitté la partie.';
-            setTimeout(() => {
-              if (gameMode === 'quick') {
-                document.getElementById('opponent-info').innerText = 'Recherche d\'un nouvel adversaire...';
-              } else {
-                document.getElementById('opponent-info').innerText = 'En attente qu\'un joueur rejoigne votre partie...';
-              }
-            }, 3000);
-          } else if (data.type === 'game_result') {
-            const resultElement = document.getElementById('online-result');
-            resultElement.innerText = data.message;
-            
-            // Ajouter des classes pour les animations
-            resultElement.className = '';
-            if (data.result === 'player') {
-              playerScoreOnline++;
-              document.getElementById('player-score-online').innerText = playerScoreOnline;
-              resultElement.classList.add('result-win');
-            } else if (data.result === 'opponent') {
-              opponentScore++;
-              document.getElementById('opponent-score').innerText = opponentScore;
-              resultElement.classList.add('result-lose');
-            } else {
-              resultElement.classList.add('result-draw');
-            }
-          } else if (data.type === 'ranking') {
-            const rankingList = document.getElementById('ranking-list');
-            rankingList.innerHTML = '';
-            data.ranking.forEach((player, index) => {
-              const li = document.createElement('li');
-              li.innerHTML = `
-                <span>${index + 1}. ${player.username}</span>
-                <span>${player.score} points</span>
-              `;
-              rankingList.appendChild(li);
-            });
-          } else if (data.type === 'error') {
-            alert(data.message);
-          }
-        };
+    socket.onopen = () => {
+    socket.send(JSON.stringify({ type: 'login', username }));
+    };
 
-        socket.onerror = (error) => {
-          console.error('Erreur WebSocket :', error);
-          alert('Impossible de se connecter au serveur. Veuillez réessayer plus tard.');
-        };
+    socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    console.log('Message reçu:', data);
+    
+    if (data.type === 'login_success') {
+    document.getElementById('login').classList.add('hidden');
+    
+    // Si un ID de partie est dans l'URL, rejoindre directement cette partie
+    if (gameIdFromUrl) {
+    joinPrivateGame(gameIdFromUrl);
+    } else {
+    document.getElementById('mode-selection').classList.remove('hidden');
+    document.getElementById('mode-selection').classList.add('fade-in');
+    }
+    } else if (data.type === 'login_error') {
+    alert(data.message);
+    } else if (data.type === 'ai_result') {
+    const resultElement = document.getElementById('ai-result');
+    resultElement.innerText = data.message;
+    
+    // Ajouter des classes pour les animations
+    resultElement.className = '';
+    if (data.result === 'player') {
+    playerScoreAI++;
+    document.getElementById('player-score-ai').innerText = playerScoreAI;
+    resultElement.classList.add('result-win');
+    } else if (data.result === 'ai') {
+    aiScore++;
+    document.getElementById('ai-score').innerText = aiScore;
+    resultElement.classList.add('result-lose');
+    } else {
+    resultElement.classList.add('result-draw');
+    }
+    } else if (data.type === 'online_count') {
+    document.getElementById('online-count').innerText = data.count;
+    } else if (data.type === 'private_game_created') {
+    privateGameId = data.gameId;
+    const privateLink = `${window.location.origin}${window.location.pathname}?game=${privateGameId}`;
+    document.getElementById('private-link-text').innerText = privateLink;
+    document.getElementById('private-link').classList.remove('hidden');
+    document.getElementById('private-link').classList.add('fade-in');
+    } else if (data.type === 'game_joined') {
+    document.getElementById('online-game').classList.add('hidden');
+    document.getElementById('private-game').classList.remove('hidden');
+    document.getElementById('private-game').classList.add('fade-in');
+    document.getElementById('opponent-info').innerText = `Vous jouez contre ${data.opponent}`;
+    resetOnlineScores();
+    } else if (data.type === 'opponent_left') {
+    document.getElementById('opponent-info').innerText = 'Votre adversaire a quitté la partie.';
+    setTimeout(() => {
+    if (gameMode === 'quick') {
+    document.getElementById('opponent-info').innerText = 'Recherche d\'un nouvel adversaire...';
+    } else {
+    document.getElementById('opponent-info').innerText = 'En attente qu\'un joueur rejoigne votre partie...';
+    }
+    }, 3000);
+    } else if (data.type === 'game_result') {
+    const resultElement = document.getElementById('online-result');
+    resultElement.innerText = data.message;
+    
+    // Ajouter des classes pour les animations
+    resultElement.className = '';
+    if (data.result === 'player') {
+    playerScoreOnline++;
+    document.getElementById('player-score-online').innerText = playerScoreOnline;
+    resultElement.classList.add('result-win');
+    } else if (data.result === 'opponent') {
+    opponentScore++;
+    document.getElementById('opponent-score').innerText = opponentScore;
+    resultElement.classList.add('result-lose');
+    } else {
+    resultElement.classList.add('result-draw');
+    }
+    } else if (data.type === 'ranking') {
+    const rankingList = document.getElementById('ranking-list');
+    rankingList.innerHTML = '';
+    data.ranking.forEach((player, index) => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+    <span>${index + 1}. ${player.username}</span>
+    <span>${player.score} points</span>
+    `;
+    rankingList.appendChild(li);
+    });
+    }
+    };
 
-        socket.onclose = () => {
-          console.log('Connexion au serveur perdue');
-          alert('Connexion au serveur perdue. Veuillez actualiser la page pour réessayer.');
-        };
-      } catch (error) {
-        console.error("Erreur lors de la création de la connexion WebSocket:", error);
-        alert("Erreur de connexion au serveur. Veuillez réessayer.");
-      }
+    socket.onerror = (error) => {
+    console.error('Erreur WebSocket :', error);
+    alert('Impossible de se connecter au serveur. Veuillez réessayer plus tard.');
+    };
+
+    socket.onclose = () => {
+    alert('Connexion au serveur perdue. Veuillez actualiser la page pour réessayer.');
+    };
     }
     
     function selectMode(mode) {
-      gameMode = mode;
-      document.getElementById('mode-selection').classList.add('hidden');
-      
-      if (mode === 'ai') {
-        document.getElementById('ai-game').classList.remove('hidden');
-        document.getElementById('ai-game').classList.add('fade-in');
-        socket.send(JSON.stringify({ type: 'select_mode', mode: 'ai' }));
-      } else if (mode === 'online') {
-        document.getElementById('online-game').classList.remove('hidden');
-        document.getElementById('online-game').classList.add('fade-in');
-        socket.send(JSON.stringify({ type: 'select_mode', mode: 'online' }));
-      }
+    gameMode = mode;
+    document.getElementById('mode-selection').classList.add('hidden');
+    
+    if (mode === 'ai') {
+    document.getElementById('ai-game').classList.remove('hidden');
+    document.getElementById('ai-game').classList.add('fade-in');
+    socket.send(JSON.stringify({ type: 'select_mode', mode: 'ai' }));
+    } else if (mode === 'online') {
+    document.getElementById('online-game').classList.remove('hidden');
+    document.getElementById('online-game').classList.add('fade-in');
+    socket.send(JSON.stringify({ type: 'select_mode', mode: 'online' }));
+    }
     }
     
     function backToModeSelection() {
-      // Cacher tous les écrans de jeu
-      document.getElementById('ai-game').classList.add('hidden');
-      document.getElementById('online-game').classList.add('hidden');
-      document.getElementById('private-game').classList.add('hidden');
-      document.getElementById('private-link').classList.add('hidden');
-      
-      // Réinitialiser les scores
-      resetAIScores();
-      resetOnlineScores();
-      
-      // Informer le serveur
-      if (gameMode === 'quick' || gameMode === 'private') {
-        socket.send(JSON.stringify({ type: 'leave_game' }));
-      }
-      
-      // Revenir à la sélection de mode
-      gameMode = null;
-      privateGameId = null;
-      document.getElementById('mode-selection').classList.remove('hidden');
-      document.getElementById('mode-selection').classList.add('fade-in');
+    // Cacher tous les écrans de jeu
+    document.getElementById('ai-game').classList.add('hidden');
+    document.getElementById('online-game').classList.add('hidden');
+    document.getElementById('private-game').classList.add('hidden');
+    document.getElementById('private-link').classList.add('hidden');
+    
+    // Réinitialiser les scores
+    resetAIScores();
+    resetOnlineScores();
+    
+    // Informer le serveur
+    if (gameMode === 'quick' || gameMode === 'private') {
+    socket.send(JSON.stringify({ type: 'leave_game' }));
+    }
+    
+    // Revenir à la sélection de mode
+    gameMode = null;
+    privateGameId = null;
+    document.getElementById('mode-selection').classList.remove('hidden');
+    document.getElementById('mode-selection').classList.add('fade-in');
     }
     
     function resetAIScores() {
-      playerScoreAI = 0;
-      aiScore = 0;
-      document.getElementById('player-score-ai').innerText = '0';
-      document.getElementById('ai-score').innerText = '0';
-      document.getElementById('ai-result').innerText = '';
-      document.getElementById('ai-result').className = '';
+    playerScoreAI = 0;
+    aiScore = 0;
+    document.getElementById('player-score-ai').innerText = '0';
+    document.getElementById('ai-score').innerText = '0';
+    document.getElementById('ai-result').innerText = '';
+    document.getElementById('ai-result').className = '';
     }
     
     function resetOnlineScores() {
-      playerScoreOnline = 0;
-      opponentScore = 0;
-      document.getElementById('player-score-online').innerText = '0';
-      document.getElementById('opponent-score').innerText = '0';
-      document.getElementById('online-result').innerText = '';
-      document.getElementById('online-result').className = '';
+    playerScoreOnline = 0;
+    opponentScore = 0;
+    document.getElementById('player-score-online').innerText = '0';
+    document.getElementById('opponent-score').innerText = '0';
+    document.getElementById('online-result').innerText = '';
+    document.getElementById('online-result').className = '';
     }
     
     function playAI(choice) {
-      if (!socket || socket.readyState !== WebSocket.OPEN) {
-        alert('Vous n\'êtes pas connecté au serveur.');
-        return;
-      }
-      
-      // Ajouter une animation aux boutons
-      const buttons = document.querySelectorAll('#ai-game .choices button');
-      buttons.forEach(btn => {
-        btn.classList.remove('animate__animated', 'animate__pulse');
-      });
-      
-      const clickedButton = document.querySelector(`#ai-game .choices button:nth-child(${
-        choice === 'pierre' ? 1 : choice === 'feuille' ? 2 : 3
-      })`);
-      
-      clickedButton.classList.add('animate__animated', 'animate__pulse');
-      
-      socket.send(JSON.stringify({ type: 'play_ai', choice }));
-      document.getElementById('ai-result').innerText = `Vous avez choisi : ${choice}. Attente du résultat...`;
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+    alert('Vous n\'êtes pas connecté au serveur.');
+    return;
+    }
+    
+    // Ajouter une animation aux boutons
+    const buttons = document.querySelectorAll('#ai-game .choices button');
+    buttons.forEach(btn => {
+    btn.classList.remove('animate__animated', 'animate__pulse');
+    });
+    
+    const clickedButton = document.querySelector(`#ai-game .choices button:nth-child(${
+    choice === 'pierre' ? 1 : choice === 'feuille' ? 2 : 3
+    })`);
+    
+    clickedButton.classList.add('animate__animated', 'animate__pulse');
+    
+    socket.send(JSON.stringify({ type: 'play_ai', choice }));
+    document.getElementById('ai-result').innerText = `Vous avez choisi : ${choice}. Attente du résultat...`;
     }
     
     function quickMatch() {
-      gameMode = 'quick';
-      socket.send(JSON.stringify({ type: 'quick_match' }));
-      document.getElementById('online-game').classList.add('hidden');
-      document.getElementById('private-game').classList.remove('hidden');
-      document.getElementById('private-game').classList.add('fade-in');
-      document.getElementById('opponent-info').innerText = 'Recherche d\'un adversaire...';
+    gameMode = 'quick';
+    socket.send(JSON.stringify({ type: 'quick_match' }));
+    document.getElementById('online-game').classList.add('hidden');
+    document.getElementById('private-game').classList.remove('hidden');
+    document.getElementById('private-game').classList.add('fade-in');
+    document.getElementById('opponent-info').innerText = 'Recherche d\'un adversaire...';
     }
     
     function createPrivateGame() {
-      gameMode = 'private';
-      socket.send(JSON.stringify({ type: 'create_private_game' }));
-      document.getElementById('opponent-info').innerText = 'En attente qu\'un joueur rejoigne votre partie...';
+    gameMode = 'private';
+    socket.send(JSON.stringify({ type: 'create_private_game' }));
+    document.getElementById('opponent-info').innerText = 'En attente qu\'un joueur rejoigne votre partie...';
     }
     
     function joinPrivateGame(gameId) {
-      gameMode = 'private';
-      socket.send(JSON.stringify({ type: 'join_private_game', gameId }));
-      document.getElementById('mode-selection').classList.add('hidden');
-      document.getElementById('private-game').classList.remove('hidden');
-      document.getElementById('private-game').classList.add('fade-in');
-      document.getElementById('opponent-info').innerText = 'Connexion à la partie privée...';
+    gameMode = 'private';
+    socket.send(JSON.stringify({ type: 'join_private_game', gameId }));
+    document.getElementById('mode-selection').classList.add('hidden');
+    document.getElementById('private-game').classList.remove('hidden');
+    document.getElementById('private-game').classList.add('fade-in');
+    document.getElementById('opponent-info').innerText = 'Connexion à la partie privée...';
     }
     
     function playOnline(choice) {
-      if (!socket || socket.readyState !== WebSocket.OPEN) {
-        alert('Vous n\'êtes pas connecté au serveur.');
-        return;
-      }
-      
-      // Ajouter une animation aux boutons
-      const buttons = document.querySelectorAll('#private-game .choices button');
-      buttons.forEach(btn => {
-        btn.classList.remove('animate__animated', 'animate__pulse');
-      });
-      
-      const clickedButton = document.querySelector(`#private-game .choices button:nth-child(${
-        choice === 'pierre' ? 1 : choice === 'feuille' ? 2 : 3
-      })`);
-      
-      clickedButton.classList.add('animate__animated', 'animate__pulse');
-      
-      socket.send(JSON.stringify({ type: 'play_online', choice }));
-      document.getElementById('online-result').innerText = `Vous avez choisi : ${choice}. En attente de l'adversaire...`;
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+    alert('Vous n\'êtes pas connecté au serveur.');
+    return;
+    }
+    
+    // Ajouter une animation aux boutons
+    const buttons = document.querySelectorAll('#private-game .choices button');
+    buttons.forEach(btn => {
+    btn.classList.remove('animate__animated', 'animate__pulse');
+    });
+    
+    const clickedButton = document.querySelector(`#private-game .choices button:nth-child(${
+    choice === 'pierre' ? 1 : choice === 'feuille' ? 2 : 3
+    })`);
+    
+    clickedButton.classList.add('animate__animated', 'animate__pulse');
+    
+    socket.send(JSON.stringify({ type: 'play_online', choice }));
+    document.getElementById('online-result').innerText = `Vous avez choisi : ${choice}. En attente de l'adversaire...`;
     }
     
     function leaveGame() {
-      socket.send(JSON.stringify({ type: 'leave_game' }));
-      backToModeSelection();
+    socket.send(JSON.stringify({ type: 'leave_game' }));
+    backToModeSelection();
     }
     
     function copyPrivateLink() {
-      const linkText = document.getElementById('private-link-text').innerText;
-      navigator.clipboard.writeText(linkText)
-        .then(() => {
-          const copyBtn = document.getElementById('copy-link-btn');
-          copyBtn.innerText = 'Copié !';
-          copyBtn.classList.add('animate__animated', 'animate__bounceIn');
-          setTimeout(() => {
-            copyBtn.innerText = 'Copier';
-            copyBtn.classList.remove('animate__animated', 'animate__bounceIn');
-          }, 2000);
-        })
-        .catch(err => {
-          console.error('Erreur lors de la copie :', err);
-          alert('Impossible de copier le lien. Veuillez le sélectionner et le copier manuellement.');
-        });
+    const linkText = document.getElementById('private-link-text').innerText;
+    navigator.clipboard.writeText(linkText)
+    .then(() => {
+    const copyBtn = document.getElementById('copy-link-btn');
+    copyBtn.innerText = 'Copié !';
+    copyBtn.classList.add('animate__animated', 'animate__bounceIn');
+    setTimeout(() => {
+    copyBtn.innerText = 'Copier';
+    copyBtn.classList.remove('animate__animated', 'animate__bounceIn');
+    }, 2000);
+    })
+    .catch(err => {
+    console.error('Erreur lors de la copie :', err);
+    alert('Impossible de copier le lien. Veuillez le sélectionner et le copier manuellement.');
+    });
     }
     
     // Créer les particules d'arrière-plan
@@ -906,7 +890,7 @@
     
     // Si un ID de partie est dans l'URL, afficher directement l'écran de connexion
     if (gameIdFromUrl) {
-      console.log('ID de partie détecté dans l\'URL:', gameIdFromUrl);
+    console.log('ID de partie détecté dans l\'URL:', gameIdFromUrl);
     }
   </script>
 </body>
