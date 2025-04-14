@@ -185,29 +185,6 @@
         box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
       }
 
-      button:disabled {
-        opacity: 0.7;
-        cursor: not-allowed;
-      }
-
-      .loading-spinner {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        border-top-color: white;
-        animation: spin 1s ease-in-out infinite;
-        margin-right: 8px;
-        vertical-align: middle;
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
       .choices {
         display: flex;
         justify-content: center;
@@ -834,7 +811,15 @@
             <button onclick="leaveGame()" class="quit-btn">Quitter</button>
           </div>
         </div>
-        <!-- Bouton de retour supprimé car redondant avec le bouton Quitter -->
+        <!-- Ajout du bouton Retour pour la recherche d'adversaire -->
+        <div
+          id="waiting-back-button"
+          style="text-align: center; margin-top: 20px"
+        >
+          <button class="back-button" onclick="backToOnlineMenu()">
+            Retour
+          </button>
+        </div>
       </div>
 
       <!-- Classement -->
@@ -896,30 +881,9 @@
           return;
         }
 
-        // Désactiver le bouton de connexion et afficher l'animation de chargement
-        const connectButton = document.querySelector("#login button");
-        connectButton.disabled = true;
-        connectButton.innerHTML =
-          '<span class="loading-spinner"></span> Connexion...';
-        connectButton.classList.remove("animate__pulse", "animate__infinite");
-
         socket = new WebSocket("wss://rpsgames.onrender.com");
 
-        // Définir un timeout pour la connexion
-        const connectionTimeout = setTimeout(() => {
-          if (socket.readyState !== WebSocket.OPEN) {
-            connectButton.disabled = false;
-            connectButton.innerHTML = "Se connecter";
-            connectButton.classList.add("animate__pulse", "animate__infinite");
-            alert(
-              "La connexion au serveur prend trop de temps. Veuillez réessayer."
-            );
-            socket.close();
-          }
-        }, 30000); // 30 secondes de timeout
-
         socket.onopen = () => {
-          clearTimeout(connectionTimeout);
           socket.send(JSON.stringify({ type: "login", username }));
         };
 
@@ -942,10 +906,6 @@
                 .classList.add("fade-in");
             }
           } else if (data.type === "login_error") {
-            // Réactiver le bouton de connexion en cas d'erreur
-            connectButton.disabled = false;
-            connectButton.innerHTML = "Se connecter";
-            connectButton.classList.add("animate__pulse", "animate__infinite");
             alert(data.message);
           } else if (data.type === "ai_result") {
             const resultElement = document.getElementById("ai-result");
@@ -981,15 +941,31 @@
             document.getElementById("online-game").classList.add("hidden");
             document.getElementById("private-game").classList.remove("hidden");
             document.getElementById("private-game").classList.add("fade-in");
-            document.getElementById("opponent-info").innerText = `Vous jouez contre ${data.opponent}`;
+            document.getElementById(
+              "opponent-info"
+            ).innerText = `Vous jouez contre ${data.opponent}`;
             currentOpponent = data.opponent;
+            // Cacher le bouton retour quand un adversaire est trouvé
+            document
+              .getElementById("waiting-back-button")
+              .classList.add("hidden");
             resetOnlineScores();
           } else if (data.type === "opponent_left") {
             document.getElementById("opponent-info").innerText =
               "Votre adversaire a quitté la partie.";
+            // Afficher le bouton retour quand l'adversaire quitte
+            document
+              .getElementById("waiting-back-button")
+              .classList.remove("hidden");
             setTimeout(() => {
-              backToModeSelection();
-            }, 2000);
+              if (gameMode === "quick") {
+                document.getElementById("opponent-info").innerText =
+                  "Recherche d'un nouvel adversaire...";
+              } else {
+                document.getElementById("opponent-info").innerText =
+                  "En attente qu'un joueur rejoigne votre partie...";
+              }
+            }, 3000);
           } else if (data.type === "game_result") {
             const resultElement = document.getElementById("online-result");
             resultElement.innerText = data.message;
@@ -1035,35 +1011,26 @@
             rankingList.innerHTML = "";
             data.ranking.forEach((player, index) => {
               const li = document.createElement("li");
-              li.innerHTML = `<span>${index + 1}. ${player.username}</span> <span>${player.score} points</span>`;
+              li.innerHTML = `
+    <span>${index + 1}. ${player.username}</span>
+    <span>${player.score} points</span>
+    `;
               rankingList.appendChild(li);
             });
           }
         };
 
         socket.onerror = (error) => {
-          clearTimeout(connectionTimeout);
           console.error("Erreur WebSocket :", error);
-          connectButton.disabled = false;
-          connectButton.innerHTML = "Se connecter";
-          connectButton.classList.add("animate__pulse", "animate__infinite");
           alert(
             "Impossible de se connecter au serveur. Veuillez réessayer plus tard."
           );
         };
 
         socket.onclose = () => {
-          clearTimeout(connectionTimeout);
-          // Ne pas afficher d'alerte si la connexion a réussi puis s'est fermée plus tard
-          if (document.getElementById("login").classList.contains("hidden")) {
-            alert(
-              "Connexion au serveur perdue. Veuillez actualiser la page pour réessayer."
-            );
-          } else {
-            connectButton.disabled = false;
-            connectButton.innerHTML = "Se connecter";
-            connectButton.classList.add("animate__pulse", "animate__infinite");
-          }
+          alert(
+            "Connexion au serveur perdue. Veuillez actualiser la page pour réessayer."
+          );
         };
       }
 
@@ -1089,7 +1056,9 @@
         document.getElementById("private-game").classList.add("hidden");
         document.getElementById("private-link").classList.add("hidden");
         document.getElementById("result-display-ai").classList.add("hidden");
-        document.getElementById("result-display-online").classList.add("hidden");
+        document
+          .getElementById("result-display-online")
+          .classList.add("hidden");
 
         // Réinitialiser les scores
         resetAIScores();
@@ -1106,12 +1075,24 @@
         currentOpponent = null;
         document.getElementById("mode-selection").classList.remove("hidden");
         document.getElementById("mode-selection").classList.add("fade-in");
+      }
 
-        // S'assurer que tous les éléments sont correctement réinitialisés
-        document.querySelector("#ai-game .choices").classList.remove("hidden");
-        document
-          .querySelector("#private-game .choices")
-          .classList.remove("hidden");
+      // Fonction pour revenir au menu en ligne
+      function backToOnlineMenu() {
+        // Informer le serveur que le joueur quitte la recherche
+        socket.send(JSON.stringify({ type: "leave_game" }));
+
+        // Cacher l'écran de jeu en ligne
+        document.getElementById("private-game").classList.add("hidden");
+
+        // Afficher le menu en ligne
+        document.getElementById("online-game").classList.remove("hidden");
+        document.getElementById("online-game").classList.add("fade-in");
+
+        // Réinitialiser les variables
+        privateGameId = null;
+        currentOpponent = null;
+        resetOnlineScores();
       }
 
       function resetAIScores() {
@@ -1166,13 +1147,24 @@
         document.getElementById("private-game").classList.add("fade-in");
         document.getElementById("opponent-info").innerText =
           "Recherche d'un adversaire...";
+        // Afficher le bouton retour pendant la recherche
+        document
+          .getElementById("waiting-back-button")
+          .classList.remove("hidden");
       }
 
       function createPrivateGame() {
         gameMode = "private";
         socket.send(JSON.stringify({ type: "create_private_game" }));
+        document.getElementById("online-game").classList.add("hidden");
+        document.getElementById("private-game").classList.remove("hidden");
+        document.getElementById("private-game").classList.add("fade-in");
         document.getElementById("opponent-info").innerText =
           "En attente qu'un joueur rejoigne votre partie...";
+        // Afficher le bouton retour pendant l'attente
+        document
+          .getElementById("waiting-back-button")
+          .classList.remove("hidden");
       }
 
       function joinPrivateGame(gameId) {
@@ -1183,6 +1175,10 @@
         document.getElementById("private-game").classList.add("fade-in");
         document.getElementById("opponent-info").innerText =
           "Connexion à la partie privée...";
+        // Afficher le bouton retour pendant la connexion
+        document
+          .getElementById("waiting-back-button")
+          .classList.remove("hidden");
       }
 
       function playOnline(choice) {
