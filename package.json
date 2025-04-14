@@ -1,14 +1,17 @@
 {
-    "name": "rockpaperscissors-io",
+    "name": "rock-paper-scissors-game",
     "version": "1.0.0",
-    "description": "Online Rock Paper Scissors game",
+    "description": "Jeu de Pierre-Feuille-Ciseaux en ligne",
     "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
     "dependencies": {
       "ws": "^8.13.0",
       "sqlite3": "^5.1.6",
       "uuid": "^9.0.0"
     },
-    "scripts": {
-      "start": "node server.js"
+    "engines": {
+      "node": ">=14.0.0"
     }
   }

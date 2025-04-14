@@ -635,7 +635,7 @@
     }
 
     // Connexion au serveur Fly.io
-    socket = new WebSocket('wss://pfc-app.fly.dev');
+    socket = new WebSocket('wss://votre-app.onrender.com');
 
     socket.onopen = () => {
     socket.send(JSON.stringify({ type: 'login', username }));
