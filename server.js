@@ -2,13 +2,7 @@ const WebSocket = require('ws');
 const sqlite3 = require('sqlite3').verbose();
 const { v4: uuidv4 } = require('uuid'); // Vous devrez installer ce package: npm install uuid
 
-// Modification pour permettre à Fly.io de définir le port
-const PORT = process.env.PORT || 8080;
-
-// Création du serveur HTTP pour attacher le serveur WebSocket
-const server = require('http').createServer();
-const wss = new WebSocket.Server({ server });
-
+const wss = new WebSocket.Server({ port: 8080 });
 const db = new sqlite3.Database(':memory:');
 
 // Initialisation de la base de données
@@ -21,6 +15,7 @@ const playerModes = new Map(); // Stocke le mode de jeu de chaque joueur
 const quickMatchQueue = []; // File d'attente pour les parties rapides
 const privateGames = new Map(); // Stocke les parties privées
 const matches = new Map(); // Stocke les matchs en cours
+const playerReadyState = new Map(); // Stocke l'état "prêt" des joueurs
 
 wss.on('connection', (ws) => {
   let currentPlayer = null;
@@ -171,6 +166,10 @@ wss.on('connection', (ws) => {
     matches.set(game.host, currentPlayer);
     matches.set(currentPlayer, game.host);
     
+    // Initialiser l'état "prêt" des joueurs
+    playerReadyState.set(game.host, false);
+    playerReadyState.set(currentPlayer, false);
+    
     // Informer les deux joueurs
     players.get(game.host).ws.send(JSON.stringify({ 
     type: 'game_joined', 
@@ -203,13 +202,19 @@ wss.on('connection', (ws) => {
     players.get(currentPlayer).ws.send(JSON.stringify({ 
     type: 'game_result', 
     message: `Égalité ! (${data.choice} contre ${opponentChoice})`,
-    result: 'draw'
+    result: 'draw',
+    playerChoice: data.choice,
+    opponentChoice: opponentChoice,
+    opponentName: opponent
     }));
     
     players.get(opponent).ws.send(JSON.stringify({ 
     type: 'game_result', 
     message: `Égalité ! (${opponentChoice} contre ${data.choice})`,
-    result: 'draw'
+    result: 'draw',
+    playerChoice: opponentChoice,
+    opponentChoice: data.choice,
+    opponentName: currentPlayer
     }));
     } else if (result === 'player1') {
     db.run('UPDATE players SET score = score + 1 WHERE username = ?', [currentPlayer]);
@@ -217,13 +222,19 @@ wss.on('connection', (ws) => {
     players.get(currentPlayer).ws.send(JSON.stringify({ 
     type: 'game_result', 
     message: `Vous avez gagné ! (${data.choice} bat ${opponentChoice})`,
-    result: 'player'
+    result: 'player',
+    playerChoice: data.choice,
+    opponentChoice: opponentChoice,
+    opponentName: opponent
     }));
     
     players.get(opponent).ws.send(JSON.stringify({ 
     type: 'game_result', 
     message: `Vous avez perdu ! (${data.choice} bat ${opponentChoice})`,
-    result: 'opponent'
+    result: 'opponent',
+    playerChoice: opponentChoice,
+    opponentChoice: data.choice,
+    opponentName: currentPlayer
     }));
     } else {
     db.run('UPDATE players SET score = score + 1 WHERE username = ?', [opponent]);
@@ -231,13 +242,19 @@ wss.on('connection', (ws) => {
     players.get(currentPlayer).ws.send(JSON.stringify({ 
     type: 'game_result', 
     message: `Vous avez perdu ! (${opponentChoice} bat ${data.choice})`,
-    result: 'opponent'
+    result: 'opponent',
+    playerChoice: data.choice,
+    opponentChoice: opponentChoice,
+    opponentName: opponent
     }));
     
     players.get(opponent).ws.send(JSON.stringify({ 
     type: 'game_result', 
     message: `Vous avez gagné ! (${opponentChoice} bat ${data.choice})`,
-    result: 'player'
+    result: 'player',
+    playerChoice: opponentChoice,
+    opponentChoice: data.choice,
+    opponentName: currentPlayer
     }));
     }
     
@@ -248,6 +265,37 @@ wss.on('connection', (ws) => {
     // Mettre à jour le classement
     broadcastRanking();
     }
+    }
+    }
+    } else if (data.type === 'ready_for_next_round') {
+    playerReadyState.set(currentPlayer, data.ready);
+    
+    const opponent = matches.get(currentPlayer);
+    if (opponent && opponent !== 'IA' && players.has(opponent)) {
+    // Vérifier si les deux joueurs sont prêts
+    if (playerReadyState.get(currentPlayer) && playerReadyState.get(opponent)) {
+    // Les deux joueurs sont prêts pour le prochain tour
+    players.get(currentPlayer).ws.send(JSON.stringify({ 
+    type: 'start_new_round'
+    }));
+    
+    players.get(opponent).ws.send(JSON.stringify({ 
+    type: 'start_new_round'
+    }));
+    
+    // Réinitialiser l'état prêt
+    playerReadyState.set(currentPlayer, false);
+    playerReadyState.set(opponent, false);
+    } else if (playerReadyState.get(currentPlayer) !== playerReadyState.get(opponent)) {
+    // Les joueurs ont choisi des options différentes (continuer vs quitter)
+    if (playerReadyState.get(currentPlayer)) {
+    // Le joueur actuel veut continuer mais l'adversaire veut quitter
+    players.get(currentPlayer).ws.send(JSON.stringify({ 
+    type: 'opponent_left', 
+    message: 'Votre adversaire a quitté la partie.'
+    }));
+    }
+    // Sinon, le joueur actuel a choisi de quitter, ce qui est géré par leaveGame()
     }
     }
     } else if (data.type === 'leave_game') {
@@ -291,6 +339,7 @@ wss.on('connection', (ws) => {
     // Supprimer le joueur des structures de données
     players.delete(currentPlayer);
     playerModes.delete(currentPlayer);
+    playerReadyState.delete(currentPlayer);
     removePlayerFromMatch(currentPlayer);
     
     // Supprimer le joueur de la file d'attente
@@ -325,6 +374,10 @@ function matchQuickPlayers() {
     if (players.has(player1) && players.has(player2)) {
     matches.set(player1, player2);
     matches.set(player2, player1);
+    
+    // Initialiser l'état "prêt" des joueurs
+    playerReadyState.set(player1, false);
+    playerReadyState.set(player2, false);
     
     console.log(`Match rapide créé : ${player1} vs ${player2}`);
     
@@ -398,7 +451,4 @@ wss.on('error', (error) => {
   console.error('Erreur du serveur WebSocket :', error);
 });
 
-// Démarrage du serveur sur le port défini par Fly.io ou 8080 par défaut
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`Serveur WebSocket démarré sur le port ${PORT}`);
-});
+console.log('Serveur WebSocket démarré sur wss://rpsgames.onrender.com');
