@@ -496,33 +496,33 @@
 
     /* Styles pour les onglets d'authentification */
     .auth-tabs {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
     }
 
     .auth-tab {
-      background-color: rgba(255, 255, 255, 0.1);
-      border: none;
-      padding: 10px 15px;
-      margin: 0 5px;
-      border-radius: 5px;
-      color: var(--text);
-      cursor: pointer;
-      transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 10px 15px;
+    margin: 0 5px;
+    border-radius: 5px;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.3s ease;
     }
 
     .auth-tab.active {
-      background-color: var(--primary);
-      color: white;
+    background-color: var(--primary);
+    color: white;
     }
 
     .auth-form {
-      transition: all 0.3s ease;
+    transition: all 0.3s ease;
     }
 
     .auth-form.hidden {
-      display: none;
+    display: none;
     }
 
     @keyframes spin {
@@ -724,52 +724,52 @@
 
     <!-- Écran de connexion -->
     <div id="login" class="card animate__animated animate__fadeIn">
-      <h2>Rejoindre la partie</h2>
-      
-      <!-- Onglets pour basculer entre connexion, inscription et invité -->
-      <div class="auth-tabs">
-        <button id="login-tab" class="auth-tab active" onclick="showTab('login-form')">Connexion</button>
-        <button id="register-tab" class="auth-tab" onclick="showTab('register-form')">Inscription</button>
-        <button id="guest-tab" class="auth-tab" onclick="showTab('guest-form')">Invité</button>
-      </div>
-      
-      <!-- Formulaire de connexion -->
-      <div id="login-form" class="auth-form">
-        <input type="text" id="login-username" placeholder="Nom d'utilisateur" autocomplete="off" />
-        <input type="password" id="login-password" placeholder="Mot de passe" />
-        <div style="text-align: center">
-          <button id="login-btn" onclick="loginUser()" class="animate__animated animate__pulse animate__infinite">
-            Se connecter
-          </button>
-        </div>
-      </div>
-      
-      <!-- Formulaire d'inscription -->
-      <div id="register-form" class="auth-form hidden">
-        <input type="text" id="register-username" placeholder="Nom d'utilisateur" autocomplete="off" />
-        <input type="email" id="register-email" placeholder="Email" autocomplete="off" />
-        <input type="password" id="register-password" placeholder="Mot de passe" />
-        <input type="password" id="register-confirm-password" placeholder="Confirmer le mot de passe" />
-        <div style="text-align: center">
-          <button id="register-btn" onclick="registerUser()" class="animate__animated animate__pulse animate__infinite">
-            S'inscrire
-          </button>
-        </div>
-      </div>
-      
-      <!-- Formulaire invité -->
-      <div id="guest-form" class="auth-form hidden">
-        <input type="text" id="username" placeholder="Entrez votre pseudo" autocomplete="off" />
-        <div style="text-align: center">
-          <button id="connect-btn" onclick="connect()" class="animate__animated animate__pulse animate__infinite">
-            Jouer en invité
-          </button>
-        </div>
-      </div>
-      
-      <div class="spinner-container" id="connection-spinner">
-        <div class="spinner"></div>
-      </div>
+    <h2>Rejoindre la partie</h2>
+    
+    <!-- Onglets pour basculer entre connexion, inscription et invité -->
+    <div class="auth-tabs">
+    <button id="login-tab" class="auth-tab active" onclick="showTab('login-form')">Connexion</button>
+    <button id="register-tab" class="auth-tab" onclick="showTab('register-form')">Inscription</button>
+    <button id="guest-tab" class="auth-tab" onclick="showTab('guest-form')">Invité</button>
+    </div>
+    
+    <!-- Formulaire de connexion -->
+    <div id="login-form" class="auth-form">
+    <input type="text" id="login-username" placeholder="Nom d'utilisateur" autocomplete="off" />
+    <input type="password" id="login-password" placeholder="Mot de passe" />
+    <div style="text-align: center">
+    <button id="login-btn" onclick="loginUser()" class="animate__animated animate__pulse animate__infinite">
+    Se connecter
+    </button>
+    </div>
+    </div>
+    
+    <!-- Formulaire d'inscription -->
+    <div id="register-form" class="auth-form hidden">
+    <input type="text" id="register-username" placeholder="Nom d'utilisateur" autocomplete="off" />
+    <input type="email" id="register-email" placeholder="Email" autocomplete="off" />
+    <input type="password" id="register-password" placeholder="Mot de passe" />
+    <input type="password" id="register-confirm-password" placeholder="Confirmer le mot de passe" />
+    <div style="text-align: center">
+    <button id="register-btn" onclick="registerUser()" class="animate__animated animate__pulse animate__infinite">
+    S'inscrire
+    </button>
+    </div>
+    </div>
+    
+    <!-- Formulaire invité -->
+    <div id="guest-form" class="auth-form hidden">
+    <input type="text" id="username" placeholder="Entrez votre pseudo" autocomplete="off" />
+    <div style="text-align: center">
+    <button id="connect-btn" onclick="connect()" class="animate__animated animate__pulse animate__infinite">
+    Jouer en invité
+    </button>
+    </div>
+    </div>
+    
+    <div class="spinner-container" id="connection-spinner">
+    <div class="spinner"></div>
+    </div>
     </div>
 
     <!-- Sélection du mode de jeu -->
@@ -790,7 +790,7 @@
     </button>
     </div>
     <div style="text-align: center; margin-top: 20px;">
-      <button class="back-button" onclick="logout()">Se déconnecter</button>
+    <button class="back-button" onclick="logout()">Se déconnecter</button>
     </div>
     </div>
 
@@ -870,14 +870,6 @@
     <span style="font-size: 24px">🔒</span> Créer une partie privée
     </button>
     </div>
-    <div id="private-link" class="hidden">
-    <div>Lien privé:</div>
-    <div
-    id="private-link-text"
-    style="margin: 10px 0; font-weight: bold"
-    ></div>
-    <button id="copy-link-btn" onclick="copyPrivateLink()">Copier</button>
-    </div>
     <div style="text-align: center; margin-top: 20px">
     <button class="back-button" onclick="backToModeSelection()">
     Retour
@@ -889,6 +881,15 @@
     <div id="private-game" class="card hidden">
     <h2>Partie en ligne</h2>
     <div id="opponent-info">En attente d'un adversaire...</div>
+    <!-- Déplacé ici depuis la section online-game -->
+    <div id="private-link" class="hidden">
+    <div>Lien privé:</div>
+    <div
+    id="private-link-text"
+    style="margin: 10px 0; font-weight: bold"
+    ></div>
+    <button id="copy-link-btn" onclick="copyPrivateLink()">Copier</button>
+    </div>
     <div class="score-display">
     <div class="score-box">
     <div class="label">Vous</div>
@@ -976,383 +977,383 @@
 
     // Créer des particules pour l'arrière-plan
     function createParticles() {
-      const particlesContainer = document.getElementById("particles");
-      const colors = ["#4a69bd", "#6a89cc", "#f6b93b", "#e55039", "#60a3bc"];
+    const particlesContainer = document.getElementById("particles");
+    const colors = ["#4a69bd", "#6a89cc", "#f6b93b", "#e55039", "#60a3bc"];
 
-      for (let i = 0; i < 30; i++) {
-        const particle = document.createElement("div");
-        particle.classList.add("particle");
+    for (let i = 0; i < 30; i++) {
+    const particle = document.createElement("div");
+    particle.classList.add("particle");
 
-        // Propriétés aléatoires
-        const size = Math.random() * 20 + 5;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const left = Math.random() * 100;
-        const delay = Math.random() * 15;
-        const duration = Math.random() * 10 + 10;
+    // Propriétés aléatoires
+    const size = Math.random() * 20 + 5;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const left = Math.random() * 100;
+    const delay = Math.random() * 15;
+    const duration = Math.random() * 10 + 10;
 
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.backgroundColor = color;
-        particle.style.left = `${left}%`;
-        particle.style.top = `${Math.random() * 100}%`;
-        particle.style.animationDelay = `${delay}s`;
-        particle.style.animationDuration = `${duration}s`;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.backgroundColor = color;
+    particle.style.left = `${left}%`;
+    particle.style.top = `${Math.random() * 100}%`;
+    particle.style.animationDelay = `${delay}s`;
+    particle.style.animationDuration = `${duration}s`;
 
-        particlesContainer.appendChild(particle);
-      }
+    particlesContainer.appendChild(particle);
+    }
     }
 
     // Fonction pour basculer entre les onglets d'authentification
     function showTab(tabId) {
-      // Cacher tous les formulaires
-      document.querySelectorAll('.auth-form').forEach(form => {
-        form.classList.add('hidden');
-      });
-      
-      // Désactiver tous les onglets
-      document.querySelectorAll('.auth-tab').forEach(tab => {
-        tab.classList.remove('active');
-      });
-      
-      // Afficher le formulaire sélectionné
-      document.getElementById(tabId).classList.remove('hidden');
-      
-      // Activer l'onglet correspondant
-      if (tabId === 'login-form') {
-        document.getElementById('login-tab').classList.add('active');
-      } else if (tabId === 'register-form') {
-        document.getElementById('register-tab').classList.add('active');
-      } else if (tabId === 'guest-form') {
-        document.getElementById('guest-tab').classList.add('active');
-      }
+    // Cacher tous les formulaires
+    document.querySelectorAll('.auth-form').forEach(form => {
+    form.classList.add('hidden');
+    });
+    
+    // Désactiver tous les onglets
+    document.querySelectorAll('.auth-tab').forEach(tab => {
+    tab.classList.remove('active');
+    });
+    
+    // Afficher le formulaire sélectionné
+    document.getElementById(tabId).classList.remove('hidden');
+    
+    // Activer l'onglet correspondant
+    if (tabId === 'login-form') {
+    document.getElementById('login-tab').classList.add('active');
+    } else if (tabId === 'register-form') {
+    document.getElementById('register-tab').classList.add('active');
+    } else if (tabId === 'guest-form') {
+    document.getElementById('guest-tab').classList.add('active');
+    }
     }
 
     // Fonction pour s'inscrire
     function registerUser() {
-      const username = document.getElementById('register-username').value.trim();
-      const email = document.getElementById('register-email').value.trim();
-      const password = document.getElementById('register-password').value;
-      const confirmPassword = document.getElementById('register-confirm-password').value;
-      
-      if (!username || username.length < 3 || /[^a-zA-Z0-9]/.test(username)) {
-        alert("Veuillez entrer un nom d'utilisateur valide (au moins 3 caractères, sans caractères spéciaux).");
-        return;
-      }
-      
-      if (!email || !email.includes('@')) {
-        alert("Veuillez entrer une adresse email valide.");
-        return;
-      }
-      
-      if (!password || password.length < 6) {
-        alert("Le mot de passe doit contenir au moins 6 caractères.");
-        return;
-      }
-      
-      if (password !== confirmPassword) {
-        alert("Les mots de passe ne correspondent pas.");
-        return;
-      }
-      
-      // Désactiver le bouton et afficher le spinner
-      const registerBtn = document.getElementById("register-btn");
-      registerBtn.disabled = true;
-      document.getElementById("connection-spinner").style.display = "flex";
-      
-      // Définir un timeout pour la connexion
-      connectionTimeout = setTimeout(() => {
-        registerBtn.disabled = false;
-        document.getElementById("connection-spinner").style.display = "none";
-        alert("La connexion au serveur a pris trop de temps. Veuillez réessayer.");
-      }, 15000); // 15 secondes de timeout
-      
-      initializeSocket();
-      
-      socket.onopen = () => {
-        clearTimeout(connectionTimeout);
-        socket.send(JSON.stringify({ 
-          type: "register", 
-          username, 
-          email, 
-          password 
-        }));
-      };
+    const username = document.getElementById('register-username').value.trim();
+    const email = document.getElementById('register-email').value.trim();
+    const password = document.getElementById('register-password').value;
+    const confirmPassword = document.getElementById('register-confirm-password').value;
+    
+    if (!username || username.length < 3 || /[^a-zA-Z0-9]/.test(username)) {
+    alert("Veuillez entrer un nom d'utilisateur valide (au moins 3 caractères, sans caractères spéciaux).");
+    return;
+    }
+    
+    if (!email || !email.includes('@')) {
+    alert("Veuillez entrer une adresse email valide.");
+    return;
+    }
+    
+    if (!password || password.length < 6) {
+    alert("Le mot de passe doit contenir au moins 6 caractères.");
+    return;
+    }
+    
+    if (password !== confirmPassword) {
+    alert("Les mots de passe ne correspondent pas.");
+    return;
+    }
+    
+    // Désactiver le bouton et afficher le spinner
+    const registerBtn = document.getElementById("register-btn");
+    registerBtn.disabled = true;
+    document.getElementById("connection-spinner").style.display = "flex";
+    
+    // Définir un timeout pour la connexion
+    connectionTimeout = setTimeout(() => {
+    registerBtn.disabled = false;
+    document.getElementById("connection-spinner").style.display = "none";
+    alert("La connexion au serveur a pris trop de temps. Veuillez réessayer.");
+    }, 15000); // 15 secondes de timeout
+    
+    initializeSocket();
+    
+    socket.onopen = () => {
+    clearTimeout(connectionTimeout);
+    socket.send(JSON.stringify({ 
+    type: "register", 
+    username, 
+    email, 
+    password 
+    }));
+    };
     }
 
     // Fonction pour se connecter avec un compte
     function loginUser() {
-      const username = document.getElementById('login-username').value.trim();
-      const password = document.getElementById('login-password').value;
-      
-      if (!username || !password) {
-        alert("Veuillez remplir tous les champs.");
-        return;
-      }
-      
-      // Désactiver le bouton et afficher le spinner
-      const loginBtn = document.getElementById("login-btn");
-      loginBtn.disabled = true;
-      document.getElementById("connection-spinner").style.display = "flex";
-      
-      // Définir un timeout pour la connexion
-      connectionTimeout = setTimeout(() => {
-        loginBtn.disabled = false;
-        document.getElementById("connection-spinner").style.display = "none";
-        alert("La connexion au serveur a pris trop de temps. Veuillez réessayer.");
-      }, 15000); // 15 secondes de timeout
-      
-      initializeSocket();
-      
-      socket.onopen = () => {
-        clearTimeout(connectionTimeout);
-        socket.send(JSON.stringify({ 
-          type: "login", 
-          username, 
-          password 
-        }));
-      };
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value;
+    
+    if (!username || !password) {
+    alert("Veuillez remplir tous les champs.");
+    return;
+    }
+    
+    // Désactiver le bouton et afficher le spinner
+    const loginBtn = document.getElementById("login-btn");
+    loginBtn.disabled = true;
+    document.getElementById("connection-spinner").style.display = "flex";
+    
+    // Définir un timeout pour la connexion
+    connectionTimeout = setTimeout(() => {
+    loginBtn.disabled = false;
+    document.getElementById("connection-spinner").style.display = "none";
+    alert("La connexion au serveur a pris trop de temps. Veuillez réessayer.");
+    }, 15000); // 15 secondes de timeout
+    
+    initializeSocket();
+    
+    socket.onopen = () => {
+    clearTimeout(connectionTimeout);
+    socket.send(JSON.stringify({ 
+    type: "login", 
+    username, 
+    password 
+    }));
+    };
     }
 
     // Fonction pour se connecter avec un token
     function connectWithToken() {
-      if (!savedToken || !savedUsername) return false;
-      
-      // Afficher le spinner
-      document.getElementById("connection-spinner").style.display = "flex";
-      
-      // Définir un timeout pour la connexion
-      connectionTimeout = setTimeout(() => {
-        document.getElementById("connection-spinner").style.display = "none";
-        localStorage.removeItem('userToken');
-        localStorage.removeItem('username');
-        return false;
-      }, 15000); // 15 secondes de timeout
-      
-      initializeSocket();
-      
-      socket.onopen = () => {
-        clearTimeout(connectionTimeout);
-        socket.send(JSON.stringify({ 
-          type: "login", 
-          token: savedToken 
-        }));
-      };
-      
-      return true;
+    if (!savedToken || !savedUsername) return false;
+    
+    // Afficher le spinner
+    document.getElementById("connection-spinner").style.display = "flex";
+    
+    // Définir un timeout pour la connexion
+    connectionTimeout = setTimeout(() => {
+    document.getElementById("connection-spinner").style.display = "none";
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('username');
+    return false;
+    }, 15000); // 15 secondes de timeout
+    
+    initializeSocket();
+    
+    socket.onopen = () => {
+    clearTimeout(connectionTimeout);
+    socket.send(JSON.stringify({ 
+    type: "login", 
+    token: savedToken 
+    }));
+    };
+    
+    return true;
     }
 
     // Fonction pour se déconnecter
     function logout() {
-      if (userToken) {
-        socket.send(JSON.stringify({ type: "logout" }));
-      }
-      
-      // Supprimer le token du localStorage
-      localStorage.removeItem('userToken');
-      localStorage.removeItem('username');
-      userToken = null;
-      username = null;
-      
-      // Revenir à l'écran de connexion
-      document.getElementById("mode-selection").classList.add("hidden");
-      document.getElementById("login").classList.remove("hidden");
-      
-      // Réinitialiser les formulaires
-      document.getElementById('login-username').value = '';
-      document.getElementById('login-password').value = '';
-      document.getElementById('register-username').value = '';
-      document.getElementById('register-email').value = '';
-      document.getElementById('register-password').value = '';
-      document.getElementById('register-confirm-password').value = '';
-      document.getElementById('username').value = '';
-      
-      // Afficher l'onglet de connexion par défaut
-      showTab('login-form');
+    if (userToken) {
+    socket.send(JSON.stringify({ type: "logout" }));
+    }
+    
+    // Supprimer le token du localStorage
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('username');
+    userToken = null;
+    username = null;
+    
+    // Revenir à l'écran de connexion
+    document.getElementById("mode-selection").classList.add("hidden");
+    document.getElementById("login").classList.remove("hidden");
+    
+    // Réinitialiser les formulaires
+    document.getElementById('login-username').value = '';
+    document.getElementById('login-password').value = '';
+    document.getElementById('register-username').value = '';
+    document.getElementById('register-email').value = '';
+    document.getElementById('register-password').value = '';
+    document.getElementById('register-confirm-password').value = '';
+    document.getElementById('username').value = '';
+    
+    // Afficher l'onglet de connexion par défaut
+    showTab('login-form');
     }
 
     // Initialiser la connexion WebSocket
     function initializeSocket() {
-      socket = new WebSocket("wss://rpsgames.onrender.com");
-      
-      socket.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        console.log("Message reçu:", data);
+    socket = new WebSocket("wss://rpsgames.onrender.com");
+    
+    socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    console.log("Message reçu:", data);
 
-        if (data.type === "register_success") {
-          // Réactiver le bouton et cacher le spinner
-          document.getElementById("register-btn").disabled = false;
-          document.getElementById("connection-spinner").style.display = "none";
-          
-          // Sauvegarder le token et le nom d'utilisateur
-          userToken = data.token;
-          username = data.username;
-          localStorage.setItem('userToken', userToken);
-          localStorage.setItem('username', username);
-          
-          document.getElementById("login").classList.add("hidden");
-          document.getElementById("mode-selection").classList.remove("hidden");
-          document.getElementById("mode-selection").classList.add("fade-in");
-        } else if (data.type === "register_error") {
-          // Réactiver le bouton et cacher le spinner
-          document.getElementById("register-btn").disabled = false;
-          document.getElementById("connection-spinner").style.display = "none";
-          alert(data.message);
-        } else if (data.type === "login_success") {
-          // Réactiver les boutons et cacher le spinner
-          document.getElementById("login-btn").disabled = false;
-          document.getElementById("connect-btn").disabled = false;
-          document.getElementById("connection-spinner").style.display = "none";
-          
-          // Si c'est une connexion avec nom d'utilisateur/mot de passe
-          if (data.token) {
-            userToken = data.token;
-            username = data.username;
-            localStorage.setItem('userToken', userToken);
-            localStorage.setItem('username', username);
-          } else {
-            // Si c'est une connexion en mode invité
-            username = document.getElementById("username").value.trim();
-          }
-          
-          document.getElementById("login").classList.add("hidden");
+    if (data.type === "register_success") {
+    // Réactiver le bouton et cacher le spinner
+    document.getElementById("register-btn").disabled = false;
+    document.getElementById("connection-spinner").style.display = "none";
+    
+    // Sauvegarder le token et le nom d'utilisateur
+    userToken = data.token;
+    username = data.username;
+    localStorage.setItem('userToken', userToken);
+    localStorage.setItem('username', username);
+    
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("mode-selection").classList.remove("hidden");
+    document.getElementById("mode-selection").classList.add("fade-in");
+    } else if (data.type === "register_error") {
+    // Réactiver le bouton et cacher le spinner
+    document.getElementById("register-btn").disabled = false;
+    document.getElementById("connection-spinner").style.display = "none";
+    alert(data.message);
+    } else if (data.type === "login_success") {
+    // Réactiver les boutons et cacher le spinner
+    document.getElementById("login-btn").disabled = false;
+    document.getElementById("connect-btn").disabled = false;
+    document.getElementById("connection-spinner").style.display = "none";
+    
+    // Si c'est une connexion avec nom d'utilisateur/mot de passe
+    if (data.token) {
+    userToken = data.token;
+    username = data.username;
+    localStorage.setItem('userToken', userToken);
+    localStorage.setItem('username', username);
+    } else {
+    // Si c'est une connexion en mode invité
+    username = document.getElementById("username").value.trim();
+    }
+    
+    document.getElementById("login").classList.add("hidden");
 
-          // Si un ID de partie est dans l'URL, rejoindre directement cette partie
-          if (gameIdFromUrl) {
-            joinPrivateGame(gameIdFromUrl);
-          } else {
-            document.getElementById("mode-selection").classList.remove("hidden");
-            document.getElementById("mode-selection").classList.add("fade-in");
-          }
-        } else if (data.type === "login_error") {
-          // Réactiver les boutons et cacher le spinner
-          document.getElementById("login-btn").disabled = false;
-          document.getElementById("connect-btn").disabled = false;
-          document.getElementById("connection-spinner").style.display = "none";
-          alert(data.message);
-          
-          // Si l'erreur concerne un token expiré, supprimer le token du localStorage
-          if (data.message.includes("Session expirée")) {
-            localStorage.removeItem('userToken');
-            localStorage.removeItem('username');
-          }
-        } else if (data.type === "logout_success") {
-          // Déjà géré par la fonction logout()
-        } else if (data.type === "ai_result") {
-          const resultElement = document.getElementById("ai-result");
-          resultElement.innerText = data.message;
+    // Si un ID de partie est dans l'URL, rejoindre directement cette partie
+    if (gameIdFromUrl) {
+    joinPrivateGame(gameIdFromUrl);
+    } else {
+    document.getElementById("mode-selection").classList.remove("hidden");
+    document.getElementById("mode-selection").classList.add("fade-in");
+    }
+    } else if (data.type === "login_error") {
+    // Réactiver les boutons et cacher le spinner
+    document.getElementById("login-btn").disabled = false;
+    document.getElementById("connect-btn").disabled = false;
+    document.getElementById("connection-spinner").style.display = "none";
+    alert(data.message);
+    
+    // Si l'erreur concerne un token expiré, supprimer le token du localStorage
+    if (data.message.includes("Session expirée")) {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('username');
+    }
+    } else if (data.type === "logout_success") {
+    // Déjà géré par la fonction logout()
+    } else if (data.type === "ai_result") {
+    const resultElement = document.getElementById("ai-result");
+    resultElement.innerText = data.message;
 
-          // Ajouter des classes pour les animations
-          resultElement.className = "";
-          if (data.result === "player") {
-            playerScoreAI++;
-            document.getElementById("player-score-ai").innerText = playerScoreAI;
-            resultElement.classList.add("result-win");
-          } else if (data.result === "ai") {
-            aiScore++;
-            document.getElementById("ai-score").innerText = aiScore;
-            resultElement.classList.add("result-lose");
-          } else {
-            resultElement.classList.add("result-draw");
-          }
+    // Ajouter des classes pour les animations
+    resultElement.className = "";
+    if (data.result === "player") {
+    playerScoreAI++;
+    document.getElementById("player-score-ai").innerText = playerScoreAI;
+    resultElement.classList.add("result-win");
+    } else if (data.result === "ai") {
+    aiScore++;
+    document.getElementById("ai-score").innerText = aiScore;
+    resultElement.classList.add("result-lose");
+    } else {
+    resultElement.classList.add("result-draw");
+    }
 
-          // Afficher l'écran de résultat
-          displayAIResult(data.playerChoice, data.aiChoice, data.result);
-        } else if (data.type === "online_count") {
-          document.getElementById("online-count").innerText = data.count;
-        } else if (data.type === "private_game_created") {
-          privateGameId = data.gameId;
-          const privateLink = `${window.location.origin}${window.location.pathname}?game=${privateGameId}`;
-          document.getElementById("private-link-text").innerText = privateLink;
-          document.getElementById("private-link").classList.remove("hidden");
-          document.getElementById("private-link").classList.add("fade-in");
-        } else if (data.type === "game_joined") {
-          document.getElementById("online-game").classList.add("hidden");
-          document.getElementById("private-game").classList.remove("hidden");
-          document.getElementById("private-game").classList.add("fade-in");
-          document.getElementById("opponent-info").innerText = `Vous jouez contre ${data.opponent}`;
-          currentOpponent = data.opponent;
-          // Cacher le bouton retour quand un adversaire est trouvé
-          document.getElementById("waiting-back-button").classList.add("hidden");
-          resetOnlineScores();
-        } else if (data.type === "opponent_left") {
-          document.getElementById("opponent-info").innerText = "Votre adversaire a quitté la partie.";
-          // Afficher le bouton retour quand l'adversaire quitte
-          document.getElementById("waiting-back-button").classList.remove("hidden");
-          
-          // Retourner au menu online après un court délai
-          setTimeout(() => {
-            backToOnlineMenu();
-          }, 3000);
-        } else if (data.type === "game_result") {
-          const resultElement = document.getElementById("online-result");
-          resultElement.innerText = data.message;
+    // Afficher l'écran de résultat
+    displayAIResult(data.playerChoice, data.aiChoice, data.result);
+    } else if (data.type === "online_count") {
+    document.getElementById("online-count").innerText = data.count;
+    } else if (data.type === "private_game_created") {
+    privateGameId = data.gameId;
+    const privateLink = `${window.location.origin}${window.location.pathname}?game=${privateGameId}`;
+    document.getElementById("private-link-text").innerText = privateLink;
+    document.getElementById("private-link").classList.remove("hidden");
+    document.getElementById("private-link").classList.add("fade-in");
+    } else if (data.type === "game_joined") {
+    document.getElementById("online-game").classList.add("hidden");
+    document.getElementById("private-game").classList.remove("hidden");
+    document.getElementById("private-game").classList.add("fade-in");
+    document.getElementById("opponent-info").innerText = `Vous jouez contre ${data.opponent}`;
+    currentOpponent = data.opponent;
+    // Cacher le bouton retour quand un adversaire est trouvé
+    document.getElementById("waiting-back-button").classList.add("hidden");
+    resetOnlineScores();
+    } else if (data.type === "opponent_left") {
+    document.getElementById("opponent-info").innerText = "Votre adversaire a quitté la partie.";
+    // Afficher le bouton retour quand l'adversaire quitte
+    document.getElementById("waiting-back-button").classList.remove("hidden");
+    
+    // Retourner au menu online après un court délai
+    setTimeout(() => {
+    backToOnlineMenu();
+    }, 3000);
+    } else if (data.type === "game_result") {
+    const resultElement = document.getElementById("online-result");
+    resultElement.innerText = data.message;
 
-          // Ajouter des classes pour les animations
-          resultElement.className = "";
-          if (data.result === "player") {
-            playerScoreOnline++;
-            document.getElementById("player-score-online").innerText = playerScoreOnline;
-            resultElement.classList.add("result-win");
-          } else if (data.result === "opponent") {
-            opponentScore++;
-            document.getElementById("opponent-score").innerText = opponentScore;
-            resultElement.classList.add("result-lose");
-          } else {
-            resultElement.classList.add("result-draw");
-          }
+    // Ajouter des classes pour les animations
+    resultElement.className = "";
+    if (data.result === "player") {
+    playerScoreOnline++;
+    document.getElementById("player-score-online").innerText = playerScoreOnline;
+    resultElement.classList.add("result-win");
+    } else if (data.result === "opponent") {
+    opponentScore++;
+    document.getElementById("opponent-score").innerText = opponentScore;
+    resultElement.classList.add("result-lose");
+    } else {
+    resultElement.classList.add("result-draw");
+    }
 
-          // Afficher l'écran de résultat
-          displayOnlineResult(
-            data.playerChoice,
-            data.opponentChoice,
-            data.result,
-            data.opponentName
-          );
-        } else if (data.type === "start_new_round") {
-          // Cacher l'écran de résultat
-          document.getElementById("result-display-online").classList.add("hidden");
+    // Afficher l'écran de résultat
+    displayOnlineResult(
+    data.playerChoice,
+    data.opponentChoice,
+    data.result,
+    data.opponentName
+    );
+    } else if (data.type === "start_new_round") {
+    // Cacher l'écran de résultat
+    document.getElementById("result-display-online").classList.add("hidden");
 
-          // Afficher les choix
-          document.querySelector("#private-game .choices").classList.remove("hidden");
+    // Afficher les choix
+    document.querySelector("#private-game .choices").classList.remove("hidden");
 
-          // Réinitialiser le résultat
-          document.getElementById("online-result").innerText = "";
-        } else if (data.type === "ranking") {
-          const rankingList = document.getElementById("ranking-list");
-          rankingList.innerHTML = "";
-          data.ranking.forEach((player, index) => {
-            const li = document.createElement("li");
-            li.innerHTML = `
-              <span>${index + 1}. ${player.username}</span>
-              <span>${player.score} points</span>
-            `;
-            rankingList.appendChild(li);
-          });
-        }
-      };
+    // Réinitialiser le résultat
+    document.getElementById("online-result").innerText = "";
+    } else if (data.type === "ranking") {
+    const rankingList = document.getElementById("ranking-list");
+    rankingList.innerHTML = "";
+    data.ranking.forEach((player, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+    <span>${index + 1}. ${player.username}</span>
+    <span>${player.score} points</span>
+    `;
+    rankingList.appendChild(li);
+    });
+    }
+    };
 
-      socket.onerror = (error) => {
-        // Réactiver les boutons et cacher le spinner en cas d'erreur
-        clearTimeout(connectionTimeout);
-        document.getElementById("login-btn").disabled = false;
-        document.getElementById("register-btn").disabled = false;
-        document.getElementById("connect-btn").disabled = false;
-        document.getElementById("connection-spinner").style.display = "none";
-        
-        console.error("Erreur WebSocket :", error);
-        alert("Impossible de se connecter au serveur. Veuillez réessayer plus tard.");
-      };
+    socket.onerror = (error) => {
+    // Réactiver les boutons et cacher le spinner en cas d'erreur
+    clearTimeout(connectionTimeout);
+    document.getElementById("login-btn").disabled = false;
+    document.getElementById("register-btn").disabled = false;
+    document.getElementById("connect-btn").disabled = false;
+    document.getElementById("connection-spinner").style.display = "none";
+    
+    console.error("Erreur WebSocket :", error);
+    alert("Impossible de se connecter au serveur. Veuillez réessayer plus tard.");
+    };
 
-      socket.onclose = () => {
-        // Réactiver les boutons et cacher le spinner en cas de fermeture
-        clearTimeout(connectionTimeout);
-        document.getElementById("login-btn").disabled = false;
-        document.getElementById("register-btn").disabled = false;
-        document.getElementById("connect-btn").disabled = false;
-        document.getElementById("connection-spinner").style.display = "none";
-        
-        alert("Connexion au serveur perdue. Veuillez actualiser la page pour réessayer.");
-      };
+    socket.onclose = () => {
+    // Réactiver les boutons et cacher le spinner en cas de fermeture
+    clearTimeout(connectionTimeout);
+    document.getElementById("login-btn").disabled = false;
+    document.getElementById("register-btn").disabled = false;
+    document.getElementById("connect-btn").disabled = false;
+    document.getElementById("connection-spinner").style.display = "none";
+    
+    alert("Connexion au serveur perdue. Veuillez actualiser la page pour réessayer.");
+    };
     }
 
     // Vérifier si un ID de partie privée est dans l'URL
@@ -1360,322 +1361,331 @@
     const gameIdFromUrl = urlParams.get("game");
 
     function connect() {
-      username = document.getElementById("username").value.trim();
-      if (!username || username.length < 3 || /[^a-zA-Z0-9]/.test(username)) {
-        alert("Veuillez entrer un pseudo valide (au moins 3 caractères, sans caractères spéciaux).");
-        return;
-      }
+    username = document.getElementById("username").value.trim();
+    if (!username || username.length < 3 || /[^a-zA-Z0-9]/.test(username)) {
+    alert("Veuillez entrer un pseudo valide (au moins 3 caractères, sans caractères spéciaux).");
+    return;
+    }
 
-      // Désactiver le bouton et afficher le spinner
-      const connectBtn = document.getElementById("connect-btn");
-      connectBtn.disabled = true;
-      document.getElementById("connection-spinner").style.display = "flex";
+    // Désactiver le bouton et afficher le spinner
+    const connectBtn = document.getElementById("connect-btn");
+    connectBtn.disabled = true;
+    document.getElementById("connection-spinner").style.display = "flex";
 
-      // Définir un timeout pour la connexion
-      connectionTimeout = setTimeout(() => {
-        connectBtn.disabled = false;
-        document.getElementById("connection-spinner").style.display = "none";
-        alert("La connexion au serveur a pris trop de temps. Veuillez réessayer.");
-      }, 15000); // 15 secondes de timeout
+    // Définir un timeout pour la connexion
+    connectionTimeout = setTimeout(() => {
+    connectBtn.disabled = false;
+    document.getElementById("connection-spinner").style.display = "none";
+    alert("La connexion au serveur a pris trop de temps. Veuillez réessayer.");
+    }, 15000); // 15 secondes de timeout
 
-      initializeSocket();
+    initializeSocket();
 
-      socket.onopen = () => {
-        clearTimeout(connectionTimeout);
-        socket.send(JSON.stringify({ type: "login", username }));
-      };
+    socket.onopen = () => {
+    clearTimeout(connectionTimeout);
+    socket.send(JSON.stringify({ type: "login", username }));
+    };
     }
 
     function selectMode(mode) {
-      gameMode = mode;
-      document.getElementById("mode-selection").classList.add("hidden");
+    gameMode = mode;
+    document.getElementById("mode-selection").classList.add("hidden");
 
-      if (mode === "ai") {
-        document.getElementById("ai-game").classList.remove("hidden");
-        document.getElementById("ai-game").classList.add("fade-in");
-        socket.send(JSON.stringify({ type: "select_mode", mode: "ai" }));
-      } else if (mode === "online") {
-        document.getElementById("online-game").classList.remove("hidden");
-        document.getElementById("online-game").classList.add("fade-in");
-        socket.send(JSON.stringify({ type: "select_mode", mode: "online" }));
-      }
+    if (mode === "ai") {
+    document.getElementById("ai-game").classList.remove("hidden");
+    document.getElementById("ai-game").classList.add("fade-in");
+    socket.send(JSON.stringify({ type: "select_mode", mode: "ai" }));
+    } else if (mode === "online") {
+    document.getElementById("online-game").classList.remove("hidden");
+    document.getElementById("online-game").classList.add("fade-in");
+    socket.send(JSON.stringify({ type: "select_mode", mode: "online" }));
+    }
     }
 
     function backToModeSelection() {
-      // Cacher tous les écrans de jeu
-      document.getElementById("ai-game").classList.add("hidden");
-      document.getElementById("online-game").classList.add("hidden");
-      document.getElementById("private-game").classList.add("hidden");
-      document.getElementById("private-link").classList.add("hidden");
-      
-      // S'assurer que les écrans de résultat sont cachés
-      document.getElementById("result-display-ai").classList.add("hidden");
-      document.getElementById("result-display-online").classList.add("hidden");
-      
-      // S'assurer que les choix sont visibles pour les prochaines parties
-      document.querySelector("#ai-game .choices").classList.remove("hidden");
-      document.querySelector("#private-game .choices").classList.remove("hidden");
+    // Cacher tous les écrans de jeu
+    document.getElementById("ai-game").classList.add("hidden");
+    document.getElementById("online-game").classList.add("hidden");
+    document.getElementById("private-game").classList.add("hidden");
+    
+    // S'assurer que les écrans de résultat sont cachés
+    document.getElementById("result-display-ai").classList.add("hidden");
+    document.getElementById("result-display-online").classList.add("hidden");
+    
+    // S'assurer que les choix sont visibles pour les prochaines parties
+    document.querySelector("#ai-game .choices").classList.remove("hidden");
+    document.querySelector("#private-game .choices").classList.remove("hidden");
+    
+    // Cacher le lien privé
+    document.getElementById("private-link").classList.add("hidden");
 
-      // Réinitialiser les scores
-      resetAIScores();
-      resetOnlineScores();
+    // Réinitialiser les scores
+    resetAIScores();
+    resetOnlineScores();
 
-      // Informer le serveur
-      if (gameMode === "quick" || gameMode === "private") {
-        socket.send(JSON.stringify({ type: "leave_game" }));
-      }
+    // Informer le serveur
+    if (gameMode === "quick" || gameMode === "private") {
+    socket.send(JSON.stringify({ type: "leave_game" }));
+    }
 
-      // Revenir à la sélection de mode
-      gameMode = null;
-      privateGameId = null;
-      currentOpponent = null;
-      document.getElementById("mode-selection").classList.remove("hidden");
-      document.getElementById("mode-selection").classList.add("fade-in");
+    // Revenir à la sélection de mode
+    gameMode = null;
+    privateGameId = null;
+    currentOpponent = null;
+    document.getElementById("mode-selection").classList.remove("hidden");
+    document.getElementById("mode-selection").classList.add("fade-in");
     }
 
     // Fonction pour revenir au menu en ligne
     function backToOnlineMenu() {
-      // Informer le serveur que le joueur quitte la recherche
-      socket.send(JSON.stringify({ type: "leave_game" }));
+    // Informer le serveur que le joueur quitte la recherche
+    socket.send(JSON.stringify({ type: "leave_game" }));
 
-      // Cacher l'écran de jeu en ligne
-      document.getElementById("private-game").classList.add("hidden");
-      
-      // S'assurer que les choix sont visibles pour les prochaines parties
-      document.querySelector("#private-game .choices").classList.remove("hidden");
-      
-      // Cacher l'écran de résultat s'il est visible
-      document.getElementById("result-display-online").classList.add("hidden");
+    // Cacher l'écran de jeu en ligne
+    document.getElementById("private-game").classList.add("hidden");
+    
+    // S'assurer que les choix sont visibles pour les prochaines parties
+    document.querySelector("#private-game .choices").classList.remove("hidden");
+    
+    // Cacher l'écran de résultat s'il est visible
+    document.getElementById("result-display-online").classList.add("hidden");
+    
+    // Cacher le lien privé
+    document.getElementById("private-link").classList.add("hidden");
 
-      // Afficher le menu en ligne
-      document.getElementById("online-game").classList.remove("hidden");
-      document.getElementById("online-game").classList.add("fade-in");
+    // Afficher le menu en ligne
+    document.getElementById("online-game").classList.remove("hidden");
+    document.getElementById("online-game").classList.add("fade-in");
 
-      // Réinitialiser les variables
-      privateGameId = null;
-      currentOpponent = null;
-      resetOnlineScores();
+    // Réinitialiser les variables
+    privateGameId = null;
+    currentOpponent = null;
+    resetOnlineScores();
     }
 
     function resetAIScores() {
-      playerScoreAI = 0;
-      aiScore = 0;
-      document.getElementById("player-score-ai").innerText = "0";
-      document.getElementById("ai-score").innerText = "0";
-      document.getElementById("ai-result").innerText = "";
-      document.getElementById("ai-result").className = "";
+    playerScoreAI = 0;
+    aiScore = 0;
+    document.getElementById("player-score-ai").innerText = "0";
+    document.getElementById("ai-score").innerText = "0";
+    document.getElementById("ai-result").innerText = "";
+    document.getElementById("ai-result").className = "";
     }
 
     function resetOnlineScores() {
-      playerScoreOnline = 0;
-      opponentScore = 0;
-      document.getElementById("player-score-online").innerText = "0";
-      document.getElementById("opponent-score").innerText = "0";
-      document.getElementById("online-result").innerText = "";
-      document.getElementById("online-result").className = "";
+    playerScoreOnline = 0;
+    opponentScore = 0;
+    document.getElementById("player-score-online").innerText = "0";
+    document.getElementById("opponent-score").innerText = "0";
+    document.getElementById("online-result").innerText = "";
+    document.getElementById("online-result").className = "";
     }
 
     function playAI(choice) {
-      if (!socket || socket.readyState !== WebSocket.OPEN) {
-        alert("Vous n'êtes pas connecté au serveur.");
-        return;
-      }
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+    alert("Vous n'êtes pas connecté au serveur.");
+    return;
+    }
 
-      // Ajouter une animation aux boutons
-      const buttons = document.querySelectorAll("#ai-game .choices button");
-      buttons.forEach((btn) => {
-        btn.classList.remove("animate__animated", "animate__pulse");
-      });
+    // Ajouter une animation aux boutons
+    const buttons = document.querySelectorAll("#ai-game .choices button");
+    buttons.forEach((btn) => {
+    btn.classList.remove("animate__animated", "animate__pulse");
+    });
 
-      const clickedButton = document.querySelector(
-        `#ai-game .choices button:nth-child(${
-          choice === "pierre" ? 1 : choice === "feuille" ? 2 : 3
-        })`
-      );
+    const clickedButton = document.querySelector(
+    `#ai-game .choices button:nth-child(${
+    choice === "pierre" ? 1 : choice === "feuille" ? 2 : 3
+    })`
+    );
 
-      clickedButton.classList.add("animate__animated", "animate__pulse");
+    clickedButton.classList.add("animate__animated", "animate__pulse");
 
-      socket.send(JSON.stringify({ type: "play_ai", choice }));
-      document.getElementById("ai-result").innerText = `Vous avez choisi : ${choice}. Attente du résultat...`;
+    socket.send(JSON.stringify({ type: "play_ai", choice }));
+    document.getElementById("ai-result").innerText = `Vous avez choisi : ${choice}. Attente du résultat...`;
     }
 
     function quickMatch() {
-      gameMode = "quick";
-      socket.send(JSON.stringify({ type: "quick_match" }));
-      document.getElementById("online-game").classList.add("hidden");
-      document.getElementById("private-game").classList.remove("hidden");
-      document.getElementById("private-game").classList.add("fade-in");
-      document.getElementById("opponent-info").innerText = "Recherche d'un adversaire...";
-      // Afficher le bouton retour pendant la recherche
-      document.getElementById("waiting-back-button").classList.remove("hidden");
+    gameMode = "quick";
+    socket.send(JSON.stringify({ type: "quick_match" }));
+    document.getElementById("online-game").classList.add("hidden");
+    document.getElementById("private-game").classList.remove("hidden");
+    document.getElementById("private-game").classList.add("fade-in");
+    document.getElementById("opponent-info").innerText = "Recherche d'un adversaire...";
+    // Afficher le bouton retour pendant la recherche
+    document.getElementById("waiting-back-button").classList.remove("hidden");
+    // Cacher le lien privé
+    document.getElementById("private-link").classList.add("hidden");
     }
 
     function createPrivateGame() {
-      gameMode = "private";
-      socket.send(JSON.stringify({ type: "create_private_game" }));
-      document.getElementById("online-game").classList.add("hidden");
-      document.getElementById("private-game").classList.remove("hidden");
-      document.getElementById("private-game").classList.add("fade-in");
-      document.getElementById("opponent-info").innerText = "En attente qu'un joueur rejoigne votre partie...";
-      // Afficher le bouton retour pendant l'attente
-      document.getElementById("waiting-back-button").classList.remove("hidden");
+    gameMode = "private";
+    socket.send(JSON.stringify({ type: "create_private_game" }));
+    document.getElementById("online-game").classList.add("hidden");
+    document.getElementById("private-game").classList.remove("hidden");
+    document.getElementById("private-game").classList.add("fade-in");
+    document.getElementById("opponent-info").innerText = "En attente qu'un joueur rejoigne votre partie...";
+    // Afficher le bouton retour pendant l'attente
+    document.getElementById("waiting-back-button").classList.remove("hidden");
     }
 
     function joinPrivateGame(gameId) {
-      gameMode = "private";
-      socket.send(JSON.stringify({ type: "join_private_game", gameId }));
-      document.getElementById("mode-selection").classList.add("hidden");
-      document.getElementById("private-game").classList.remove("hidden");
-      document.getElementById("private-game").classList.add("fade-in");
-      document.getElementById("opponent-info").innerText = "Connexion à la partie privée...";
-      // Afficher le bouton retour pendant la connexion
-      document.getElementById("waiting-back-button").classList.remove("hidden");
+    gameMode = "private";
+    socket.send(JSON.stringify({ type: "join_private_game", gameId }));
+    document.getElementById("mode-selection").classList.add("hidden");
+    document.getElementById("private-game").classList.remove("hidden");
+    document.getElementById("private-game").classList.add("fade-in");
+    document.getElementById("opponent-info").innerText = "Connexion à la partie privée...";
+    // Afficher le bouton retour pendant la connexion
+    document.getElementById("waiting-back-button").classList.remove("hidden");
+    // Cacher le lien privé
+    document.getElementById("private-link").classList.add("hidden");
     }
 
     function playOnline(choice) {
-      if (!socket || socket.readyState !== WebSocket.OPEN) {
-        alert("Vous n'êtes pas connecté au serveur.");
-        return;
-      }
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+    alert("Vous n'êtes pas connecté au serveur.");
+    return;
+    }
 
-      // Ajouter une animation aux boutons
-      const buttons = document.querySelectorAll("#private-game .choices button");
-      buttons.forEach((btn) => {
-        btn.classList.remove("animate__animated", "animate__pulse");
-      });
+    // Ajouter une animation aux boutons
+    const buttons = document.querySelectorAll("#private-game .choices button");
+    buttons.forEach((btn) => {
+    btn.classList.remove("animate__animated", "animate__pulse");
+    });
 
-      const clickedButton = document.querySelector(
-        `#private-game .choices button:nth-child(${
-          choice === "pierre" ? 1 : choice === "feuille" ? 2 : 3
-        })`
-      );
+    const clickedButton = document.querySelector(
+    `#private-game .choices button:nth-child(${
+    choice === "pierre" ? 1 : choice === "feuille" ? 2 : 3
+    })`
+    );
 
-      clickedButton.classList.add("animate__animated", "animate__pulse");
+    clickedButton.classList.add("animate__animated", "animate__pulse");
 
-      socket.send(JSON.stringify({ type: "play_online", choice }));
-      document.getElementById("online-result").innerText = `Vous avez choisi : ${choice}. En attente de l'adversaire...`;
+    socket.send(JSON.stringify({ type: "play_online", choice }));
+    document.getElementById("online-result").innerText = `Vous avez choisi : ${choice}. En attente de l'adversaire...`;
     }
 
     function leaveGame() {
-      socket.send(JSON.stringify({ type: "leave_game" }));
-      backToModeSelection();
+    socket.send(JSON.stringify({ type: "leave_game" }));
+    backToModeSelection();
     }
 
     function copyPrivateLink() {
-      const linkText = document.getElementById("private-link-text").innerText;
-      navigator.clipboard
-        .writeText(linkText)
-        .then(() => {
-          const copyBtn = document.getElementById("copy-link-btn");
-          copyBtn.innerText = "Copié !";
-          copyBtn.classList.add("animate__animated", "animate__bounceIn");
-          setTimeout(() => {
-            copyBtn.innerText = "Copier";
-            copyBtn.classList.remove("animate__animated", "animate__bounceIn");
-          }, 2000);
-        })
-        .catch((err) => {
-          console.error("Erreur lors de la copie :", err);
-          alert("Impossible de copier le lien. Veuillez le sélectionner et le copier manuellement.");
-        });
+    const linkText = document.getElementById("private-link-text").innerText;
+    navigator.clipboard
+    .writeText(linkText)
+    .then(() => {
+    const copyBtn = document.getElementById("copy-link-btn");
+    copyBtn.innerText = "Copié !";
+    copyBtn.classList.add("animate__animated", "animate__bounceIn");
+    setTimeout(() => {
+    copyBtn.innerText = "Copier";
+    copyBtn.classList.remove("animate__animated", "animate__bounceIn");
+    }, 2000);
+    })
+    .catch((err) => {
+    console.error("Erreur lors de la copie :", err);
+    alert("Impossible de copier le lien. Veuillez le sélectionner et le copier manuellement.");
+    });
     }
 
     // Fonction pour afficher le résultat du jeu IA
     function displayAIResult(playerChoice, aiChoice, result) {
-      // Cacher les choix
-      document.querySelector("#ai-game .choices").classList.add("hidden");
+    // Cacher les choix
+    document.querySelector("#ai-game .choices").classList.add("hidden");
 
-      // Afficher l'écran de résultat
-      const resultDisplay = document.getElementById("result-display-ai");
-      resultDisplay.classList.remove("hidden");
+    // Afficher l'écran de résultat
+    const resultDisplay = document.getElementById("result-display-ai");
+    resultDisplay.classList.remove("hidden");
 
-      // Afficher les choix
-      document.getElementById("player-choice-ai").innerHTML = getChoiceEmoji(playerChoice);
-      document.getElementById("ai-choice").innerHTML = getChoiceEmoji(aiChoice);
+    // Afficher les choix
+    document.getElementById("player-choice-ai").innerHTML = getChoiceEmoji(playerChoice);
+    document.getElementById("ai-choice").innerHTML = getChoiceEmoji(aiChoice);
 
-      // Afficher le résultat
-      const resultText = document.getElementById("result-text-ai");
-      resultText.innerHTML = getResultText(result);
-      resultText.className = "result-text";
-      resultText.classList.add(
-        result === "player"
-          ? "result-win"
-          : result === "ai"
-          ? "result-lose"
-          : "result-draw"
-      );
+    // Afficher le résultat
+    const resultText = document.getElementById("result-text-ai");
+    resultText.innerHTML = getResultText(result);
+    resultText.className = "result-text";
+    resultText.classList.add(
+    result === "player"
+    ? "result-win"
+    : result === "ai"
+    ? "result-lose"
+    : "result-draw"
+    );
     }
 
     // Fonction pour afficher le résultat du jeu en ligne
     function displayOnlineResult(playerChoice, opponentChoice, result, opponentName) {
-      // Cacher les choix
-      document.querySelector("#private-game .choices").classList.add("hidden");
+    // Cacher les choix
+    document.querySelector("#private-game .choices").classList.add("hidden");
 
-      // Afficher l'écran de résultat
-      const resultDisplay = document.getElementById("result-display-online");
-      resultDisplay.classList.remove("hidden");
+    // Afficher l'écran de résultat
+    const resultDisplay = document.getElementById("result-display-online");
+    resultDisplay.classList.remove("hidden");
 
-      // Afficher les choix
-      document.getElementById("player-choice-online").innerHTML = getChoiceEmoji(playerChoice);
-      document.getElementById("opponent-choice").innerHTML = getChoiceEmoji(opponentChoice);
-      document.getElementById("opponent-name").innerText = opponentName || "Adversaire";
+    // Afficher les choix
+    document.getElementById("player-choice-online").innerHTML = getChoiceEmoji(playerChoice);
+    document.getElementById("opponent-choice").innerHTML = getChoiceEmoji(opponentChoice);
+    document.getElementById("opponent-name").innerText = opponentName || "Adversaire";
 
-      // Afficher le résultat
-      const resultText = document.getElementById("result-text-online");
-      resultText.innerHTML = getResultText(result);
-      resultText.className = "result-text";
-      resultText.classList.add(
-        result === "player"
-          ? "result-win"
-          : result === "opponent"
-          ? "result-lose"
-          : "result-draw"
-      );
+    // Afficher le résultat
+    const resultText = document.getElementById("result-text-online");
+    resultText.innerHTML = getResultText(result);
+    resultText.className = "result-text";
+    resultText.classList.add(
+    result === "player"
+    ? "result-win"
+    : result === "opponent"
+    ? "result-lose"
+    : "result-draw"
+    );
 
-      // Changer le texte du bouton en fonction du résultat
-      const continueBtn = document.getElementById("continue-btn");
-      if (result === "opponent") {
-        continueBtn.innerText = "Revanche";
-      } else {
-        continueBtn.innerText = "Continuer";
-      }
+    // Changer le texte du bouton en fonction du résultat
+    const continueBtn = document.getElementById("continue-btn");
+    if (result === "opponent") {
+    continueBtn.innerText = "Revanche";
+    } else {
+    continueBtn.innerText = "Continuer";
+    }
 
-      // Envoyer l'état "prêt" au serveur
-      socket.send(JSON.stringify({ type: "ready_for_next_round", ready: false }));
+    // Envoyer l'état "prêt" au serveur
+    socket.send(JSON.stringify({ type: "ready_for_next_round", ready: false }));
     }
 
     // Fonction pour continuer le jeu IA
     function continueAIGame() {
-      // Cacher l'écran de résultat
-      document.getElementById("result-display-ai").classList.add("hidden");
+    // Cacher l'écran de résultat
+    document.getElementById("result-display-ai").classList.add("hidden");
 
-      // Afficher les choix
-      document.querySelector("#ai-game .choices").classList.remove("hidden");
+    // Afficher les choix
+    document.querySelector("#ai-game .choices").classList.remove("hidden");
 
-      // Réinitialiser le résultat
-      document.getElementById("ai-result").innerText = "";
+    // Réinitialiser le résultat
+    document.getElementById("ai-result").innerText = "";
     }
 
     // Fonction pour continuer le jeu en ligne
     function continueOnlineGame() {
-      // Informer le serveur que le joueur est prêt pour le prochain tour
-      socket.send(JSON.stringify({ type: "ready_for_next_round", ready: true }));
+    // Informer le serveur que le joueur est prêt pour le prochain tour
+    socket.send(JSON.stringify({ type: "ready_for_next_round", ready: true }));
     }
 
     // Fonction pour obtenir l'emoji correspondant au choix
     function getChoiceEmoji(choice) {
-      if (choice === "pierre") return "🪨";
-      if (choice === "feuille") return "📄";
-      if (choice === "ciseaux") return "✂️";
-      return "";
+    if (choice === "pierre") return "🪨";
+    if (choice === "feuille") return "📄";
+    if (choice === "ciseaux") return "✂️";
+    return "";
     }
 
     // Fonction pour obtenir le texte du résultat
     function getResultText(result) {
-      if (result === "draw") return "Égalité !";
-      if (result === "player") return "Victoire !";
-      if (result === "opponent" || result === "ai") return "Défaite !";
-      return "";
+    if (result === "draw") return "Égalité !";
+    if (result === "player") return "Victoire !";
+    if (result === "opponent" || result === "ai") return "Défaite !";
+    return "";
     }
 
     // Créer les particules d'arrière-plan
@@ -1683,12 +1693,12 @@
 
     // Essayer de se connecter avec un token existant
     if (savedToken && savedUsername) {
-      connectWithToken();
+    connectWithToken();
     }
 
     // Si un ID de partie est dans l'URL, afficher directement l'écran de connexion
     if (gameIdFromUrl) {
-      console.log("ID de partie détecté dans l'URL:", gameIdFromUrl);
+    console.log("ID de partie détecté dans l'URL:", gameIdFromUrl);
     }
     </script>
   </body>
