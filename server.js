@@ -1,6 +1,13 @@
 const WebSocket = require("ws");
 const sqlite3 = require("sqlite3").verbose();
-const { v4: uuidv4 } = require("uuid"); // Vous devrez installer ce package: npm install uuid
+const { v4: uuidv4 } = require("uuid");
+const bcrypt = require("bcrypt"); // Vous devrez installer ce package: npm install bcrypt
+const jwt = require("jsonwebtoken"); // Vous devrez installer ce package: npm install jsonwebtoken
+
+// Configuration
+const JWT_SECRET = process.env.JWT_SECRET || "votre_clé_secrète_jwt"; // À changer en production
+const SALT_ROUNDS = 10;
+const TOKEN_EXPIRY = '7d'; // Durée de validité du token
 
 // Configuration du serveur WebSocket
 const wss = new WebSocket.Server({
@@ -23,12 +30,192 @@ const wss = new WebSocket.Server({
   },
 });
 
-const db = new sqlite3.Database(":memory:");
-
 // Initialisation de la base de données
+const db = new sqlite3.Database("./database.sqlite");
+
+// Initialisation des tables
 db.serialize(() => {
-  db.run("CREATE TABLE players (username TEXT PRIMARY KEY, score INTEGER)");
+  // Table des utilisateurs
+  db.run(`CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY,
+    username TEXT UNIQUE,
+    email TEXT UNIQUE,
+    password TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP
+  )`);
+
+  // Table des sessions
+  db.run(`CREATE TABLE IF NOT EXISTS sessions (
+    token TEXT PRIMARY KEY,
+    user_id TEXT,
+    expires_at TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+  )`);
+
+  // Table des scores
+  db.run("CREATE TABLE IF NOT EXISTS players (username TEXT PRIMARY KEY, score INTEGER)");
 });
+
+// Classe pour gérer l'authentification
+class AuthManager {
+  // Inscription d'un nouvel utilisateur
+  async register(username, email, password) {
+    return new Promise((resolve, reject) => {
+      // Vérifier si l'utilisateur existe déjà
+      db.get("SELECT id FROM users WHERE username = ? OR email = ?", [username, email], async (err, row) => {
+        if (err) return reject({ status: 500, message: "Erreur de base de données", error: err });
+        if (row) return reject({ status: 409, message: "Nom d'utilisateur ou email déjà utilisé" });
+
+        try {
+          // Hachage du mot de passe
+          const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+          const userId = uuidv4();
+
+          // Insertion du nouvel utilisateur
+          db.run(
+            "INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)",
+            [userId, username, email, hashedPassword],
+            (err) => {
+              if (err) return reject({ status: 500, message: "Erreur lors de la création du compte", error: err });
+              
+              // Création du token JWT
+              const token = this.generateToken(userId, username);
+              
+              // Enregistrement de la session
+              this.saveSession(token, userId);
+              
+              // Ajouter l'utilisateur à la table des scores
+              db.run("INSERT INTO players (username, score) VALUES (?, ?)", [username, 0]);
+              
+              resolve({ 
+                status: 201, 
+                message: "Compte créé avec succès", 
+                data: { 
+                  userId, 
+                  username, 
+                  token 
+                } 
+              });
+            }
+          );
+        } catch (error) {
+          reject({ status: 500, message: "Erreur lors du hachage du mot de passe", error });
+        }
+      });
+    });
+  }
+
+  // Connexion d'un utilisateur
+  async login(username, password) {
+    return new Promise((resolve, reject) => {
+      db.get("SELECT id, username, password FROM users WHERE username = ?", [username], async (err, user) => {
+        if (err) return reject({ status: 500, message: "Erreur de base de données", error: err });
+        if (!user) return reject({ status: 401, message: "Nom d'utilisateur ou mot de passe incorrect" });
+
+        try {
+          // Vérification du mot de passe
+          const match = await bcrypt.compare(password, user.password);
+          if (!match) return reject({ status: 401, message: "Nom d'utilisateur ou mot de passe incorrect" });
+
+          // Mise à jour de la date de dernière connexion
+          db.run("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?", [user.id]);
+
+          // Création du token JWT
+          const token = this.generateToken(user.id, user.username);
+          
+          // Enregistrement de la session
+          this.saveSession(token, user.id);
+          
+          resolve({ 
+            status: 200, 
+            message: "Connexion réussie", 
+            data: { 
+              userId: user.id, 
+              username: user.username, 
+              token 
+            } 
+          });
+        } catch (error) {
+          reject({ status: 500, message: "Erreur lors de la vérification du mot de passe", error });
+        }
+      });
+    });
+  }
+
+  // Vérification d'un token
+  async verifyToken(token) {
+    return new Promise((resolve, reject) => {
+      try {
+        // Vérifier si le token est valide
+        const decoded = jwt.verify(token, JWT_SECRET);
+        
+        // Vérifier si la session existe toujours
+        db.get("SELECT user_id FROM sessions WHERE token = ? AND expires_at > datetime('now')", [token], (err, session) => {
+          if (err) return reject({ status: 500, message: "Erreur de base de données", error: err });
+          if (!session) return reject({ status: 401, message: "Session expirée ou invalide" });
+          
+          // Récupérer les informations de l'utilisateur
+          db.get("SELECT id, username FROM users WHERE id = ?", [session.user_id], (err, user) => {
+            if (err) return reject({ status: 500, message: "Erreur de base de données", error: err });
+            if (!user) return reject({ status: 401, message: "Utilisateur introuvable" });
+            
+            resolve({ 
+              status: 200, 
+              data: { 
+                userId: user.id, 
+                username: user.username 
+              } 
+            });
+          });
+        });
+      } catch (error) {
+        reject({ status: 401, message: "Token invalide", error });
+      }
+    });
+  }
+
+  // Génération d'un token JWT
+  generateToken(userId, username) {
+    return jwt.sign(
+      { userId, username },
+      JWT_SECRET,
+      { expiresIn: TOKEN_EXPIRY }
+    );
+  }
+
+  // Enregistrement d'une session
+  saveSession(token, userId) {
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 7); // 7 jours de validité
+    
+    db.run(
+      "INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)",
+      [token, userId, expiresAt.toISOString()]
+    );
+  }
+
+  // Déconnexion d'un utilisateur
+  async logout(token) {
+    return new Promise((resolve, reject) => {
+      db.run("DELETE FROM sessions WHERE token = ?", [token], (err) => {
+        if (err) return reject({ status: 500, message: "Erreur lors de la déconnexion", error: err });
+        resolve({ status: 200, message: "Déconnexion réussie" });
+      });
+    });
+  }
+
+  // Nettoyage des sessions expirées
+  cleanExpiredSessions() {
+    db.run("DELETE FROM sessions WHERE expires_at < datetime('now')");
+  }
+}
+
+// Nettoyer les sessions expirées périodiquement
+setInterval(() => {
+  const authManager = new AuthManager();
+  authManager.cleanExpiredSessions();
+}, 24 * 60 * 60 * 1000); // Une fois par jour
 
 const players = new Map(); // Stocke les joueurs connectés
 const playerModes = new Map(); // Stocke le mode de jeu de chaque joueur
@@ -36,11 +223,14 @@ const quickMatchQueue = []; // File d'attente pour les parties rapides
 const privateGames = new Map(); // Stocke les parties privées
 const matches = new Map(); // Stocke les matchs en cours
 const playerReadyState = new Map(); // Stocke l'état "prêt" des joueurs
+const authenticatedUsers = new Map(); // Stocke les utilisateurs authentifiés
 
 wss.on("connection", (ws) => {
   let currentPlayer = null;
+  let currentUserId = null;
+  let currentToken = null;
 
-  ws.on("message", (message) => {
+  ws.on("message", async (message) => {
     let data;
     try {
       data = JSON.parse(message);
@@ -49,55 +239,223 @@ wss.on("connection", (ws) => {
       return;
     }
 
-    if (data.type === "login") {
-      currentPlayer = data.username;
-
-      // Vérifier si le joueur existe déjà
-      if (players.has(currentPlayer)) {
-        ws.send(
-          JSON.stringify({
-            type: "login_error",
-            message:
-              "Ce pseudo est déjà utilisé. Veuillez en choisir un autre.",
-          })
-        );
-        return;
+    // Gestion de l'authentification
+    if (data.type === "register") {
+      try {
+        const authManager = new AuthManager();
+        const result = await authManager.register(data.username, data.email, data.password);
+        
+        currentPlayer = result.data.username;
+        currentUserId = result.data.userId;
+        currentToken = result.data.token;
+        
+        authenticatedUsers.set(currentPlayer, { 
+          userId: currentUserId, 
+          token: currentToken,
+          ws 
+        });
+        
+        players.set(currentPlayer, { ws, choice: null });
+        
+        ws.send(JSON.stringify({ 
+          type: "register_success", 
+          username: currentPlayer,
+          token: currentToken
+        }));
+        
+        // Mettre à jour le nombre de joueurs en ligne
+        broadcastOnlineCount();
+        
+        // Envoyer le classement au nouveau joueur
+        broadcastRanking();
+      } catch (error) {
+        ws.send(JSON.stringify({ 
+          type: "register_error", 
+          message: error.message 
+        }));
       }
+    } else if (data.type === "login") {
+      // Si c'est une connexion avec token
+      if (data.token) {
+        try {
+          const authManager = new AuthManager();
+          const result = await authManager.verifyToken(data.token);
+          
+          currentPlayer = result.data.username;
+          currentUserId = result.data.userId;
+          currentToken = data.token;
+          
+          authenticatedUsers.set(currentPlayer, { 
+            userId: currentUserId, 
+            token: currentToken,
+            ws 
+          });
+          
+          players.set(currentPlayer, { ws, choice: null });
+          
+          console.log(`Joueur connecté avec token : ${currentPlayer}`);
+          
+          ws.send(JSON.stringify({ 
+            type: "login_success",
+            username: currentPlayer
+          }));
+          
+          // Mettre à jour le nombre de joueurs en ligne
+          broadcastOnlineCount();
+          
+          // Envoyer le classement au joueur
+          broadcastRanking();
+        } catch (error) {
+          ws.send(JSON.stringify({ 
+            type: "login_error", 
+            message: "Session expirée, veuillez vous reconnecter" 
+          }));
+        }
+      } 
+      // Connexion avec nom d'utilisateur et mot de passe
+      else if (data.username && data.password) {
+        try {
+          const authManager = new AuthManager();
+          const result = await authManager.login(data.username, data.password);
+          
+          currentPlayer = result.data.username;
+          currentUserId = result.data.userId;
+          currentToken = result.data.token;
+          
+          authenticatedUsers.set(currentPlayer, { 
+            userId: currentUserId, 
+            token: currentToken,
+            ws 
+          });
+          
+          players.set(currentPlayer, { ws, choice: null });
+          
+          console.log(`Joueur connecté : ${currentPlayer}`);
+          
+          ws.send(JSON.stringify({ 
+            type: "login_success",
+            username: currentPlayer,
+            token: currentToken
+          }));
+          
+          // Mettre à jour le nombre de joueurs en ligne
+          broadcastOnlineCount();
+          
+          // Envoyer le classement au joueur
+          broadcastRanking();
+        } catch (error) {
+          ws.send(JSON.stringify({ 
+            type: "login_error", 
+            message: error.message 
+          }));
+        }
+      }
+      // Connexion en mode invité (ancienne méthode)
+      else {
+        currentPlayer = data.username;
 
-      players.set(currentPlayer, { ws, choice: null });
-      console.log(`Joueur connecté : ${currentPlayer}`);
+        // Vérifier si le joueur existe déjà
+        if (players.has(currentPlayer)) {
+          ws.send(
+            JSON.stringify({
+              type: "login_error",
+              message: "Ce pseudo est déjà utilisé. Veuillez en choisir un autre.",
+            })
+          );
+          return;
+        }
 
-      // Ajouter le joueur à la base de données s'il n'existe pas
-      db.get(
-        "SELECT score FROM players WHERE username = ?",
-        [currentPlayer],
-        (err, row) => {
-          if (err) {
-            console.error("Erreur lors de la récupération du joueur :", err);
-            return;
-          }
-          if (!row) {
-            db.run(
-              "INSERT INTO players (username, score) VALUES (?, ?)",
-              [currentPlayer, 0],
-              (err) => {
-                if (err) {
-                  console.error("Erreur lors de l'insertion du joueur :", err);
+        players.set(currentPlayer, { ws, choice: null });
+        console.log(`Joueur invité connecté : ${currentPlayer}`);
+
+        // Ajouter le joueur à la base de données s'il n'existe pas
+        db.get(
+          "SELECT score FROM players WHERE username = ?",
+          [currentPlayer],
+          (err, row) => {
+            if (err) {
+              console.error("Erreur lors de la récupération du joueur :", err);
+              return;
+            }
+            if (!row) {
+              db.run(
+                "INSERT INTO players (username, score) VALUES (?, ?)",
+                [currentPlayer, 0],
+                (err) => {
+                  if (err) {
+                    console.error("Erreur lors de l'insertion du joueur :", err);
+                  }
                 }
-              }
-            );
+              );
+            }
+          }
+        );
+
+        // Informer le client que la connexion est réussie
+        ws.send(JSON.stringify({ type: "login_success" }));
+
+        // Envoyer le classement au nouveau joueur
+        broadcastRanking();
+
+        // Mettre à jour le nombre de joueurs en ligne pour tous les joueurs
+        broadcastOnlineCount();
+      }
+    } else if (data.type === "logout") {
+      if (currentToken) {
+        try {
+          const authManager = new AuthManager();
+          await authManager.logout(currentToken);
+          
+          authenticatedUsers.delete(currentPlayer);
+          
+          ws.send(JSON.stringify({ 
+            type: "logout_success" 
+          }));
+        } catch (error) {
+          ws.send(JSON.stringify({ 
+            type: "logout_error", 
+            message: error.message 
+          }));
+        }
+      }
+      
+      // Supprimer le joueur des structures de données
+      if (currentPlayer) {
+        const opponent = matches.get(currentPlayer);
+        if (opponent && opponent !== "IA" && players.has(opponent)) {
+          players.get(opponent).ws.send(
+            JSON.stringify({
+              type: "opponent_left",
+              message: "Votre adversaire a quitté la partie.",
+            })
+          );
+        }
+
+        players.delete(currentPlayer);
+        playerModes.delete(currentPlayer);
+        playerReadyState.delete(currentPlayer);
+        removePlayerFromMatch(currentPlayer);
+
+        // Supprimer le joueur de la file d'attente
+        const queueIndex = quickMatchQueue.indexOf(currentPlayer);
+        if (queueIndex !== -1) {
+          quickMatchQueue.splice(queueIndex, 1);
+        }
+
+        // Supprimer les parties privées où le joueur est l'hôte
+        for (const [gameId, game] of privateGames.entries()) {
+          if (game.host === currentPlayer) {
+            privateGames.delete(gameId);
           }
         }
-      );
 
-      // Informer le client que la connexion est réussie
-      ws.send(JSON.stringify({ type: "login_success" }));
-
-      // Envoyer le classement au nouveau joueur
-      broadcastRanking();
-
-      // Mettre à jour le nombre de joueurs en ligne pour tous les joueurs
-      broadcastOnlineCount();
+        // Mettre à jour le nombre de joueurs en ligne
+        broadcastOnlineCount();
+        
+        currentPlayer = null;
+        currentUserId = null;
+        currentToken = null;
+      }
     } else if (data.type === "select_mode") {
       playerModes.set(currentPlayer, data.mode);
       console.log(`${currentPlayer} a sélectionné le mode: ${data.mode}`);
@@ -420,6 +778,7 @@ wss.on("connection", (ws) => {
       players.delete(currentPlayer);
       playerModes.delete(currentPlayer);
       playerReadyState.delete(currentPlayer);
+      authenticatedUsers.delete(currentPlayer);
       removePlayerFromMatch(currentPlayer);
 
       // Supprimer le joueur de la file d'attente

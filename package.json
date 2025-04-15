@@ -4,14 +4,16 @@
     "description": "Jeu de Pierre-Feuille-Ciseaux en ligne",
     "main": "server.js",
     "scripts": {
-      "start": "node server.js"
+        "start": "node server.js"
     },
     "dependencies": {
-      "ws": "^8.13.0",
-      "sqlite3": "^5.1.6",
-      "uuid": "^9.0.0"
+        "bcrypt": "^5.1.1",
+        "jsonwebtoken": "^9.0.2",
+        "sqlite3": "^5.1.6",
+        "uuid": "^9.0.0",
+        "ws": "^8.13.0"
     },
     "engines": {
-      "node": ">=14.0.0"
+        "node": ">=14.0.0"
     }
-  }
+}
